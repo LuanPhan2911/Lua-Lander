@@ -21,7 +21,7 @@ public class Lander : MonoBehaviour
         public int score;
     }
 
-    private float fuelAmount = 10f;
+    private float fuelAmount;
     private float maxFuelAmount = 10f;
 
 
@@ -29,6 +29,7 @@ public class Lander : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        fuelAmount = maxFuelAmount;
         landerRigidbody2D = GetComponent<Rigidbody2D>();
 
 
@@ -146,5 +147,22 @@ public class Lander : MonoBehaviour
         float fuelConsumptionRate = 1f;
 
         fuelAmount -= fuelConsumptionRate * Time.deltaTime;
+    }
+
+    public float GetSpeedX()
+    {
+        return landerRigidbody2D.velocity.x;
+    }
+    public float GetSpeedY()
+    {
+        return landerRigidbody2D.velocity.y;
+    }
+    public float GetFuel()
+    {
+        return fuelAmount;
+    }
+    public float GetFuelNormalized()
+    {
+        return fuelAmount / maxFuelAmount;
     }
 }

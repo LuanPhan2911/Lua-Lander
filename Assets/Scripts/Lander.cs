@@ -12,6 +12,9 @@ public class Lander : MonoBehaviour
     public event EventHandler OnRightForce;
     public event EventHandler OnBeforeForce;
 
+    private float fuelAmount = 10f;
+    private float maxFuelAmount = 10f;
+
 
 
     private void Awake()
@@ -24,6 +27,20 @@ public class Lander : MonoBehaviour
     private void FixedUpdate()
     {
         OnBeforeForce?.Invoke(this, EventArgs.Empty);
+        if (fuelAmount <= 0f)
+        {
+            // if we have no fuel, we can't apply any force
+            return;
+        }
+
+        if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+        {
+            // if any of the keys is pressed, we will consume fuel
+
+            ConsumpFuel();
+        }
+
+
 
         if (Keyboard.current.upArrowKey.isPressed)
         {
@@ -87,5 +104,30 @@ public class Lander : MonoBehaviour
 
         int score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
         Debug.Log("Landing success");
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out FuelPickup fuelPickup))
+        {
+
+
+            fuelAmount += fuelPickup.GetAddedFuel();
+            if (fuelAmount > maxFuelAmount)
+            {
+                fuelAmount = maxFuelAmount;
+
+            }
+
+            fuelPickup.DestroySelf();
+
+        }
+    }
+    private void ConsumpFuel()
+    {
+        float fuelConsumptionRate = 1f;
+
+        fuelAmount -= fuelConsumptionRate * Time.deltaTime;
     }
 }

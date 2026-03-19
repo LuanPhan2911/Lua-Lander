@@ -19,6 +19,18 @@ public class Lander : MonoBehaviour
     public class OnLandedEventArgs : EventArgs
     {
         public int score;
+        public LandedState landedState;
+        public int multiplier;
+        public float landingSpeed;
+        public float landingAngle;
+    }
+
+    public enum LandedState
+    {
+        Success,
+        Crash,
+        TooFast,
+        SteepAngle
     }
 
     private float fuelAmount;
@@ -81,6 +93,14 @@ public class Lander : MonoBehaviour
         if (!collision.gameObject.TryGetComponent<LandingPad>(out LandingPad landingPad))
         {
             Debug.Log("Crash on terrain");
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                score = 0,
+                landedState = LandedState.Crash,
+                landingAngle = 0f,
+                landingSpeed = 0f,
+                multiplier = 0
+            });
             return;
         }
 
@@ -89,6 +109,14 @@ public class Lander : MonoBehaviour
         if (velocityMagnitude > softLandingVelocityMagnitude)
         {
             Debug.Log("Landing too hard");
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                score = 0,
+                landedState = LandedState.TooFast,
+                landingAngle = 0f,
+                landingSpeed = velocityMagnitude,
+                multiplier = landingPad.GetScoreMultiplier()
+            });
             return;
         }
         float minDotVector = 0.9f;
@@ -96,6 +124,14 @@ public class Lander : MonoBehaviour
         if (dotVector < minDotVector)
         {
             Debug.Log("Landing too steep angle");
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                score = 0,
+                landedState = LandedState.SteepAngle,
+                landingAngle = dotVector,
+                landingSpeed = velocityMagnitude,
+                multiplier = landingPad.GetScoreMultiplier()
+            });
             return;
         }
 
@@ -116,7 +152,14 @@ public class Lander : MonoBehaviour
         int score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
         Debug.Log("Landing success");
 
-        OnLanded?.Invoke(this, new OnLandedEventArgs { score = score });
+        OnLanded?.Invoke(this, new OnLandedEventArgs
+        {
+            score = score,
+            landedState = LandedState.Success,
+            landingAngle = dotVector,
+            landingSpeed = velocityMagnitude,
+            multiplier = landingPad.GetScoreMultiplier()
+        });
     }
 
 

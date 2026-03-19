@@ -29,6 +29,7 @@ public class StatUI : MonoBehaviour
         fuelBarImage.fillAmount = Lander.Instance.GetFuelNormalized();
 
         statMeshPro.text =
+            $"{GameManager.Instance.GetLevelNumber()}\n" +
             $"{Mathf.Round(GameManager.Instance.GetScore())}\n" +
             $"{Mathf.Round(GameManager.Instance.GetTime())}\n" +
             $"{Mathf.Round(Lander.Instance.GetSpeedX())}\n" +

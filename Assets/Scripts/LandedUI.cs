@@ -1,6 +1,6 @@
+using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LandedUI : MonoBehaviour
@@ -8,14 +8,17 @@ public class LandedUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI titleTextMesh;
     [SerializeField] private TextMeshProUGUI statTextMesh;
-    [SerializeField] private Button restartButton;
+    [SerializeField] private Button nextButton;
+    [SerializeField] private TextMeshProUGUI nextButtonTextMesh;
     // Start is called before the first frame update
+
+    private Action NextButtonClick;
 
     private void Awake()
     {
-        restartButton.onClick.AddListener(() =>
+        nextButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(0);
+            NextButtonClick();
         });
     }
 
@@ -32,31 +35,31 @@ public class LandedUI : MonoBehaviour
         if (e.landedState == Lander.LandedState.Success)
         {
             titleTextMesh.text = "Landing Successful!";
+            nextButtonTextMesh.text = "Next Level";
 
+            NextButtonClick = () =>
+            {
+                GameManager.Instance.LoadNextLevel();
 
+            };
         }
-        else if (e.landedState == Lander.LandedState.Crash)
+        else
         {
             titleTextMesh.text = "Crash";
+            nextButtonTextMesh.text = "Restart";
+            NextButtonClick = () =>
+            {
+                GameManager.Instance.RestartLevel();
+            };
 
         }
-        else if (e.landedState == Lander.LandedState.TooFast)
-        {
-            titleTextMesh.text = "Too Fast!";
-        }
-        else if (e.landedState == Lander.LandedState.SteepAngle)
-        {
-            titleTextMesh.text = "Steep Angle!";
-        }
-        else if (e.landedState == Lander.LandedState.OutOfFuel)
-        {
-            titleTextMesh.text = "Out of Fuel!";
-        }
         statTextMesh.text =
-                   $"{Mathf.Round(e.landingSpeed) * 10}\n" +
-                   $"{Mathf.Round(e.landingAngle * 100)}\n" +
-                   $"x{e.multiplier}\n" +
-                   $"{e.score}";
+                 $"{Mathf.Round(e.landingSpeed) * 10}\n" +
+                 $"{Mathf.Round(e.landingAngle * 100)}\n" +
+                 $"x{e.multiplier}\n" +
+                 $"{e.score}";
+
+
     }
 
     private void Show()
@@ -69,6 +72,5 @@ public class LandedUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
 
 }

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     private bool isTimerRunning = false;
+    private static int levelNumber = 1;
+    [SerializeField] private List<GameLevel> gameLevels;
 
 
     private void Awake()
@@ -22,11 +26,25 @@ public class GameManager : MonoBehaviour
         Lander.Instance.OnLanded += Lander_OnLanded;
 
         Lander.Instance.OnStateChanged += Lander_OnStateChanged;
+        LoadGameLevel();
     }
 
     private void Lander_OnStateChanged(object sender, Lander.OnStateChangedEventArgs e)
     {
         isTimerRunning = e.state == Lander.State.Normal;
+    }
+    private void LoadGameLevel()
+    {
+        foreach (GameLevel gameLevel in gameLevels)
+        {
+            if (gameLevel.GetLevelNumber() == levelNumber)
+            {
+                Instantiate(gameLevel, Vector3.zero, Quaternion.identity);
+                Vector3 spawnPosition = gameLevel.GetSpawnLanderPosition();
+                Lander.Instance.transform.position = spawnPosition;
+                break;
+            }
+        }
     }
 
     private void Update()
@@ -61,5 +79,18 @@ public class GameManager : MonoBehaviour
     public float GetTime()
     {
         return timer;
+    }
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void LoadNextLevel()
+    {
+        levelNumber++;
+        SceneManager.LoadScene(0);
+    }
+    public int GetLevelNumber()
+    {
+        return levelNumber;
     }
 }

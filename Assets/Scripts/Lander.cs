@@ -62,7 +62,7 @@ public class Lander : MonoBehaviour
         Instance = this;
         fuelAmount = maxFuelAmount;
         landerRigidbody2D = GetComponent<Rigidbody2D>();
-        landerRigidbody2D.gravityScale = 0f;
+
 
         state = State.WaitingToStart;
 
@@ -77,7 +77,7 @@ public class Lander : MonoBehaviour
         {
             default:
             case State.WaitingToStart:
-
+                landerRigidbody2D.gravityScale = 0f;
                 if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
                 {
                     // if any of the keys is pressed, we will consume fuel

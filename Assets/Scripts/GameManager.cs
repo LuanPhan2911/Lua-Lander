@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    private bool isTimerRunning = false;
+
+
     private void Awake()
     {
         Instance = this;
@@ -16,11 +19,22 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Lander.Instance.OnCoinPickup += Lander_OnCoinPickup; ;
-        Lander.Instance.OnLanded += Lander_OnLanded; ;
+        Lander.Instance.OnLanded += Lander_OnLanded;
+
+        Lander.Instance.OnStateChanged += Lander_OnStateChanged;
     }
+
+    private void Lander_OnStateChanged(object sender, Lander.OnStateChangedEventArgs e)
+    {
+        isTimerRunning = e.state == Lander.State.Normal;
+    }
+
     private void Update()
     {
-        timer += Time.deltaTime;
+        if (isTimerRunning)
+        {
+            timer += Time.deltaTime;
+        }
     }
 
     private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)

@@ -4,7 +4,11 @@ using UnityEngine.InputSystem;
 public class Lander : MonoBehaviour
 {
     public static Lander Instance { get; private set; }
+
+    public State state;
     private Rigidbody2D landerRigidbody2D;
+
+    private const float GRAVITY_SCALE = 0.7f;
 
 
 
@@ -15,6 +19,13 @@ public class Lander : MonoBehaviour
 
     public event EventHandler OnCoinPickup;
     public event EventHandler<OnLandedEventArgs> OnLanded;
+
+    public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
+
+    public class OnStateChangedEventArgs : EventArgs
+    {
+        public State state;
+    }
 
     public class OnLandedEventArgs : EventArgs
     {
@@ -30,7 +41,15 @@ public class Lander : MonoBehaviour
         Success,
         Crash,
         TooFast,
-        SteepAngle
+        SteepAngle,
+        OutOfFuel
+    }
+
+    public enum State
+    {
+        WaitingToStart,
+        Normal,
+        GameOver
     }
 
     private float fuelAmount;
@@ -43,53 +62,100 @@ public class Lander : MonoBehaviour
         Instance = this;
         fuelAmount = maxFuelAmount;
         landerRigidbody2D = GetComponent<Rigidbody2D>();
+        landerRigidbody2D.gravityScale = 0f;
+
+        state = State.WaitingToStart;
 
 
     }
 
     private void FixedUpdate()
     {
+
         OnBeforeForce?.Invoke(this, EventArgs.Empty);
-        if (fuelAmount <= 0f)
+        switch (state)
         {
-            // if we have no fuel, we can't apply any force
-            return;
+            default:
+            case State.WaitingToStart:
+
+                if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+                {
+                    // if any of the keys is pressed, we will consume fuel
+
+
+                    ChangeState(State.Normal);
+
+
+                }
+                break;
+            case State.Normal:
+
+                if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+                {
+                    // if any of the keys is pressed, we will consume fuel
+
+
+                    landerRigidbody2D.gravityScale = GRAVITY_SCALE;
+                    ConsumpFuel();
+
+
+                }
+                if (fuelAmount <= 0f)
+                {
+                    // if we have no fuel, we can't apply any force
+                    OnLanded?.Invoke(this, new OnLandedEventArgs
+                    {
+                        score = 0,
+                        landedState = LandedState.OutOfFuel,
+                        landingAngle = 0f,
+                        landingSpeed = 0f,
+                        multiplier = 0
+                    });
+                    ChangeState(State.GameOver);
+                    return;
+                }
+
+
+
+
+
+                if (Keyboard.current.upArrowKey.isPressed)
+                {
+                    float force = 700f;
+                    landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
+
+                    OnUpForce?.Invoke(this, EventArgs.Empty);
+                }
+
+                if (Keyboard.current.leftArrowKey.isPressed)
+                {
+                    float rotateSpeed = 100f;
+                    landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
+                    OnLeftForce?.Invoke(this, EventArgs.Empty);
+                }
+
+                if (Keyboard.current.rightArrowKey.isPressed)
+                {
+                    float rotateSpeed = -100f;
+                    landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
+                    OnRightForce?.Invoke(this, EventArgs.Empty);
+                }
+                break;
+            case State.GameOver:
+                break;
         }
 
-        if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-        {
-            // if any of the keys is pressed, we will consume fuel
 
-            ConsumpFuel();
-        }
-
-
-
-        if (Keyboard.current.upArrowKey.isPressed)
-        {
-            float force = 700f;
-            landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
-
-            OnUpForce?.Invoke(this, EventArgs.Empty);
-        }
-
-        if (Keyboard.current.leftArrowKey.isPressed)
-        {
-            float rotateSpeed = 100f;
-            landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
-            OnLeftForce?.Invoke(this, EventArgs.Empty);
-        }
-
-        if (Keyboard.current.rightArrowKey.isPressed)
-        {
-            float rotateSpeed = -100f;
-            landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
-            OnRightForce?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (state == State.GameOver)
+        {
+            return;
+        }
+
+        ChangeState(State.GameOver);
         if (!collision.gameObject.TryGetComponent<LandingPad>(out LandingPad landingPad))
         {
             Debug.Log("Crash on terrain");
@@ -101,6 +167,7 @@ public class Lander : MonoBehaviour
                 landingSpeed = 0f,
                 multiplier = 0
             });
+
             return;
         }
 
@@ -117,6 +184,7 @@ public class Lander : MonoBehaviour
                 landingSpeed = velocityMagnitude,
                 multiplier = landingPad.GetScoreMultiplier()
             });
+
             return;
         }
         float minDotVector = 0.9f;
@@ -132,6 +200,7 @@ public class Lander : MonoBehaviour
                 landingSpeed = velocityMagnitude,
                 multiplier = landingPad.GetScoreMultiplier()
             });
+
             return;
         }
 
@@ -160,6 +229,7 @@ public class Lander : MonoBehaviour
             landingSpeed = velocityMagnitude,
             multiplier = landingPad.GetScoreMultiplier()
         });
+
     }
 
 
@@ -207,5 +277,15 @@ public class Lander : MonoBehaviour
     public float GetFuelNormalized()
     {
         return fuelAmount / maxFuelAmount;
+    }
+
+    private void ChangeState(State newState)
+    {
+        state = newState;
+        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs
+        {
+            state = state
+        });
+
     }
 }

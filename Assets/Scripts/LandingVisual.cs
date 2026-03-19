@@ -6,6 +6,8 @@ public class LandingVisual : MonoBehaviour
     [SerializeField] private ParticleSystem middleThrusterPaticleSystem;
     [SerializeField] private ParticleSystem rightThrusterPaticleSystem;
 
+    [SerializeField] private GameObject crashParticleSystem;
+
 
     private Lander lander;
 
@@ -19,6 +21,17 @@ public class LandingVisual : MonoBehaviour
         lander.OnLeftForce += Lander_OnLeftForce;
         lander.OnRightForce += Lander_OnRightForce;
 
+        lander.OnLanded += Lander_OnLanded;
+
+    }
+
+    private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)
+    {
+        if (e.landedState == Lander.LandedState.Crash || e.landedState == Lander.LandedState.TooFast)
+        {
+            Instantiate(crashParticleSystem, transform.position, Quaternion.identity);
+            gameObject.SetActive(false);
+        }
     }
 
     private void Lander_OnRightForce(object sender, System.EventArgs e)

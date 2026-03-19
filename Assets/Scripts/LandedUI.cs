@@ -1,12 +1,24 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LandedUI : MonoBehaviour
 {
 
     [SerializeField] private TextMeshProUGUI titleTextMesh;
     [SerializeField] private TextMeshProUGUI statTextMesh;
+    [SerializeField] private Button restartButton;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        restartButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(0);
+        });
+    }
+
     void Start()
     {
 
@@ -35,6 +47,10 @@ public class LandedUI : MonoBehaviour
         else if (e.landedState == Lander.LandedState.SteepAngle)
         {
             titleTextMesh.text = "Steep Angle!";
+        }
+        else if (e.landedState == Lander.LandedState.OutOfFuel)
+        {
+            titleTextMesh.text = "Out of Fuel!";
         }
         statTextMesh.text =
                    $"{Mathf.Round(e.landingSpeed) * 10}\n" +

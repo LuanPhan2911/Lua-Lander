@@ -33,4 +33,9 @@ public class GameInput : MonoBehaviour
         return inputSystem.Player.LanderRight.IsPressed();
 
     }
+
+    public Vector2 GetLanderMovement()
+    {
+        return inputSystem.Player.Movement.ReadValue<Vector2>();
+    }
 }

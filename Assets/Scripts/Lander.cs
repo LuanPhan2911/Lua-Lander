@@ -71,6 +71,7 @@ public class Lander : MonoBehaviour
     private void FixedUpdate()
     {
 
+
         OnBeforeForce?.Invoke(this, EventArgs.Empty);
         switch (state)
         {
@@ -78,7 +79,9 @@ public class Lander : MonoBehaviour
             case State.WaitingToStart:
                 landerRigidbody2D.gravityScale = 0f;
                 if (GameInput.Instance.IsLanderUp() || GameInput.Instance.IsLanderRight() ||
-                    GameInput.Instance.IsLanderLeft())
+                    GameInput.Instance.IsLanderLeft() || GameInput.Instance.GetLanderMovement() != Vector2.zero
+
+                    )
                 {
                     // if any of the keys is pressed, we will consume fuel
 
@@ -91,7 +94,7 @@ public class Lander : MonoBehaviour
             case State.Normal:
 
                 if (GameInput.Instance.IsLanderUp() || GameInput.Instance.IsLanderRight() ||
-                    GameInput.Instance.IsLanderLeft())
+                    GameInput.Instance.IsLanderLeft() || GameInput.Instance.GetLanderMovement() != Vector2.zero)
                 {
                     // if any of the keys is pressed, we will consume fuel
 
@@ -111,8 +114,9 @@ public class Lander : MonoBehaviour
 
 
 
+                float deadZone = 0.4f;
 
-                if (GameInput.Instance.IsLanderUp())
+                if (GameInput.Instance.IsLanderUp() || GameInput.Instance.GetLanderMovement().y > deadZone)
                 {
                     float force = 700f;
                     landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
@@ -120,14 +124,14 @@ public class Lander : MonoBehaviour
                     OnUpForce?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (GameInput.Instance.IsLanderLeft())
+                if (GameInput.Instance.IsLanderLeft() || GameInput.Instance.GetLanderMovement().x < -deadZone)
                 {
                     float rotateSpeed = 100f;
                     landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
                     OnLeftForce?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (GameInput.Instance.IsLanderRight())
+                if (GameInput.Instance.IsLanderRight() || GameInput.Instance.GetLanderMovement().x > deadZone)
                 {
                     float rotateSpeed = -100f;
                     landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);

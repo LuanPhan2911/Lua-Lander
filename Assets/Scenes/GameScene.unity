@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 207932348}
   - component: {fileID: 207932350}
   - component: {fileID: 207932349}
+  - component: {fileID: 207932351}
   m_Layer: 5
   m_Name: FuelBar
   m_TagString: Untagged
@@ -406,6 +407,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207932347}
   m_CullTransparentMesh: 1
+--- !u!114 &207932351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207932347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c41aa2f35af144cb1314a7bd2da1ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelBarImage: {fileID: 207932349}
+  highFuelBarColor: {r: 0.10233072, g: 0.9547169, b: 0.041431006, a: 1}
+  averageFuelBarColor: {r: 0.9622642, g: 0.95628315, b: 0.05628333, a: 1}
+  lowFuelBarColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!1 &346067995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 346067997}
+  - component: {fileID: 346067996}
+  m_Layer: 0
+  m_Name: GameInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &346067996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346067995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83fa69cd84d2ee488ab1a837b8cee43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &346067997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346067995}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &425878455
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,7 +950,6 @@ MonoBehaviour:
   rightArrowImage: {fileID: 1378146383}
   upArrowImage: {fileID: 2108392583}
   downArrowImage: {fileID: 629667327}
-  fuelBarImage: {fileID: 207932349}
 --- !u!1 &607575664
 GameObject:
   m_ObjectHideFlags: 0
@@ -3127,3 +3187,4 @@ SceneRoots:
   - {fileID: 941414563}
   - {fileID: 153984117}
   - {fileID: 714825844}
+  - {fileID: 346067997}

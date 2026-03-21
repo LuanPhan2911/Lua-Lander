@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 public class Lander : MonoBehaviour
 {
     public static Lander Instance { get; private set; }
@@ -78,7 +77,8 @@ public class Lander : MonoBehaviour
             default:
             case State.WaitingToStart:
                 landerRigidbody2D.gravityScale = 0f;
-                if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+                if (GameInput.Instance.IsLanderUp() || GameInput.Instance.IsLanderRight() ||
+                    GameInput.Instance.IsLanderLeft())
                 {
                     // if any of the keys is pressed, we will consume fuel
 
@@ -90,7 +90,8 @@ public class Lander : MonoBehaviour
                 break;
             case State.Normal:
 
-                if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+                if (GameInput.Instance.IsLanderUp() || GameInput.Instance.IsLanderRight() ||
+                    GameInput.Instance.IsLanderLeft())
                 {
                     // if any of the keys is pressed, we will consume fuel
 
@@ -111,7 +112,7 @@ public class Lander : MonoBehaviour
 
 
 
-                if (Keyboard.current.upArrowKey.isPressed)
+                if (GameInput.Instance.IsLanderUp())
                 {
                     float force = 700f;
                     landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
@@ -119,14 +120,14 @@ public class Lander : MonoBehaviour
                     OnUpForce?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (Keyboard.current.leftArrowKey.isPressed)
+                if (GameInput.Instance.IsLanderLeft())
                 {
                     float rotateSpeed = 100f;
                     landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
                     OnLeftForce?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (Keyboard.current.rightArrowKey.isPressed)
+                if (GameInput.Instance.IsLanderRight())
                 {
                     float rotateSpeed = -100f;
                     landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);

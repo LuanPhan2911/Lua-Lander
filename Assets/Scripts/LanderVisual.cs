@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LandingVisual : MonoBehaviour
+public class LanderVisual : MonoBehaviour
 {
     [SerializeField] private ParticleSystem leftThrusterPaticleSystem;
     [SerializeField] private ParticleSystem middleThrusterPaticleSystem;

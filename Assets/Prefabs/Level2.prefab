@@ -571,6 +571,37 @@ PolygonCollider2D:
       - {x: -0.83873314, y: -1.0656567}
       - {x: -1, y: -1}
   m_UseDelaunayMesh: 0
+--- !u!1 &4487156455271829215
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5675237117539729604}
+  m_Layer: 0
+  m_Name: CinemachineFollowTranform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5675237117539729604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4487156455271829215}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 20.5, y: 4.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5092294673694546173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6239586022248294130
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,6 +672,7 @@ Transform:
   - {fileID: 857937074462051184}
   - {fileID: 2615697713277475657}
   - {fileID: 3500695984628700858}
+  - {fileID: 5675237117539729604}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7230502853387299679
@@ -657,6 +689,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNumber: 2
   spawnLanderTransform: {fileID: 7662460700657687214}
+  cinemachineCameraFollowTranfrom: {fileID: 5675237117539729604}
+  zoomOutSize: 18
 --- !u!1001 &6827061646574348361
 PrefabInstance:
   m_ObjectHideFlags: 0

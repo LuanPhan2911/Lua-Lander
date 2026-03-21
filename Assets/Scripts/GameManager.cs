@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,8 @@ public class GameManager : MonoBehaviour
     private bool isTimerRunning = false;
     private static int levelNumber = 1;
     [SerializeField] private List<GameLevel> gameLevels;
+    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+
 
 
     private void Awake()
@@ -32,6 +35,11 @@ public class GameManager : MonoBehaviour
     private void Lander_OnStateChanged(object sender, Lander.OnStateChangedEventArgs e)
     {
         isTimerRunning = e.state == Lander.State.Normal;
+        if (e.state == Lander.State.Normal)
+        {
+            cinemachineVirtualCamera.Follow = Lander.Instance.transform;
+            ZoomCinemachineCamera.Instance.SetNormalZoomSize();
+        }
     }
     private void LoadGameLevel()
     {
@@ -42,6 +50,8 @@ public class GameManager : MonoBehaviour
                 Instantiate(gameLevel, Vector3.zero, Quaternion.identity);
                 Vector3 spawnPosition = gameLevel.GetSpawnLanderPosition();
                 Lander.Instance.transform.position = spawnPosition;
+                cinemachineVirtualCamera.Follow = gameLevel.GetCinemachineCameraFollowTransform();
+                ZoomCinemachineCamera.Instance.SetZoomOutSize(gameLevel.GetZoomOutSize());
                 break;
             }
         }

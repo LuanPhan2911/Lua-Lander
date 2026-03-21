@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StatUI : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class StatUI : MonoBehaviour
     [SerializeField] private GameObject upArrowImage;
     [SerializeField] private GameObject downArrowImage;
 
-    [SerializeField] private Image fuelBarImage;
+
 
 
     private void Update()
@@ -26,7 +25,7 @@ public class StatUI : MonoBehaviour
         upArrowImage.SetActive(Lander.Instance.GetSpeedY() >= 0f);
         downArrowImage.SetActive(Lander.Instance.GetSpeedY() < 0f);
 
-        fuelBarImage.fillAmount = Lander.Instance.GetFuelNormalized();
+
 
         statMeshPro.text =
             $"{GameManager.Instance.GetLevelNumber()}\n" +

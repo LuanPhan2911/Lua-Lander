@@ -103,15 +103,7 @@ public class Lander : MonoBehaviour
                 if (fuelAmount <= 0f)
                 {
                     // if we have no fuel, we can't apply any force
-                    OnLanded?.Invoke(this, new OnLandedEventArgs
-                    {
-                        score = 0,
-                        landedState = LandedState.OutOfFuel,
-                        landingAngle = 0f,
-                        landingSpeed = 0f,
-                        multiplier = 0
-                    });
-                    ChangeState(State.GameOver);
+
                     return;
                 }
 
@@ -150,10 +142,7 @@ public class Lander : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (state == State.GameOver)
-        {
-            return;
-        }
+
 
         ChangeState(State.GameOver);
         if (!collision.gameObject.TryGetComponent<LandingPad>(out LandingPad landingPad))

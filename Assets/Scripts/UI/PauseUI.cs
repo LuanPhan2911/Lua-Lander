@@ -9,6 +9,9 @@ public class PauseUI : MonoBehaviour
 
     [SerializeField] private Button backButton;
 
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private Slider soundVolumeSlider;
+
     private void Awake()
     {
         resumeButton.onClick.AddListener(() =>
@@ -19,6 +22,23 @@ public class PauseUI : MonoBehaviour
         {
             GameManager.Instance.UnPauseGame();
             SceneLoader.LoadScene(SceneLoader.Scene.MainMenuScene);
+        });
+
+
+        musicVolumeSlider.maxValue = MusicManager.MAX_MUSIC_VOLUME;
+        musicVolumeSlider.value = MusicManager.Instance.GetMusicVolume();
+
+        soundVolumeSlider.maxValue = SoundManager.MAX_SOUND_VOLUME;
+        soundVolumeSlider.value = SoundManager.Instance.GetSoundVolume();
+
+        musicVolumeSlider.onValueChanged.AddListener((float value) =>
+        {
+            MusicManager.Instance.ChangeMusicVolume((int)value);
+        });
+
+        soundVolumeSlider.onValueChanged.AddListener((float value) =>
+        {
+            SoundManager.Instance.ChangeSoundVolume((int)value);
         });
     }
 

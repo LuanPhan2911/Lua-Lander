@@ -120,15 +120,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""ac310369-385a-49c9-97e8-c714b9a4aab9"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Menu"",
                     ""type"": ""Button"",
                     ""id"": ""441f2e64-d6bf-4a0c-a792-ef34eb2a0543"",
@@ -240,17 +231,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0d2354b1-6ab7-4e2d-8d76-cd9d60d9c4df"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4d8762d4-e499-4dee-ba4e-69d9df8d4b6b"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -270,7 +250,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Player_LanderUp = m_Player.FindAction("LanderUp", throwIfNotFound: true);
         m_Player_LanderLeft = m_Player.FindAction("LanderLeft", throwIfNotFound: true);
         m_Player_LanderRight = m_Player.FindAction("LanderRight", throwIfNotFound: true);
-        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
     }
 
@@ -355,7 +334,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LanderUp;
     private readonly InputAction m_Player_LanderLeft;
     private readonly InputAction m_Player_LanderRight;
-    private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Menu;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
@@ -380,10 +358,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/LanderRight".
         /// </summary>
         public InputAction @LanderRight => m_Wrapper.m_Player_LanderRight;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Movement".
-        /// </summary>
-        public InputAction @Movement => m_Wrapper.m_Player_Movement;
         /// <summary>
         /// Provides access to the underlying input action "Player/Menu".
         /// </summary>
@@ -423,9 +397,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @LanderRight.started += instance.OnLanderRight;
             @LanderRight.performed += instance.OnLanderRight;
             @LanderRight.canceled += instance.OnLanderRight;
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
             @Menu.started += instance.OnMenu;
             @Menu.performed += instance.OnMenu;
             @Menu.canceled += instance.OnMenu;
@@ -449,9 +420,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @LanderRight.started -= instance.OnLanderRight;
             @LanderRight.performed -= instance.OnLanderRight;
             @LanderRight.canceled -= instance.OnLanderRight;
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
             @Menu.started -= instance.OnMenu;
             @Menu.performed -= instance.OnMenu;
             @Menu.canceled -= instance.OnMenu;
@@ -516,13 +484,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLanderRight(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMovement(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Menu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

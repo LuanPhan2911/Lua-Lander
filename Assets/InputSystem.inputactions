@@ -34,15 +34,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Movement",
-                    "type": "Value",
-                    "id": "ac310369-385a-49c9-97e8-c714b9a4aab9",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Menu",
                     "type": "Button",
                     "id": "441f2e64-d6bf-4a0c-a792-ef34eb2a0543",
@@ -149,17 +140,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "LanderRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0d2354b1-6ab7-4e2d-8d76-cd9d60d9c4df",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

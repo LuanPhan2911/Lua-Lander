@@ -16,7 +16,12 @@ public class Lander : MonoBehaviour
     public event EventHandler OnRightForce;
     public event EventHandler OnBeforeForce;
 
-    public event EventHandler OnCoinPickup;
+    public event EventHandler<OnCoinPickupEventArgs> OnCoinPickup;
+
+    public class OnCoinPickupEventArgs : EventArgs
+    {
+        public int scoreAmount;
+    }
     public event EventHandler OnFuelPickup;
     public event EventHandler<OnLandedEventArgs> OnLanded;
 
@@ -80,7 +85,7 @@ public class Lander : MonoBehaviour
             case State.WaitingToStart:
                 landerRigidbody2D.gravityScale = 0f;
                 if (GameInput.Instance.IsLanderUp() || GameInput.Instance.IsLanderRight() ||
-                    GameInput.Instance.IsLanderLeft() || GameInput.Instance.GetLanderMovement() != Vector2.zero
+                    GameInput.Instance.IsLanderLeft()
 
                     )
                 {
@@ -95,7 +100,7 @@ public class Lander : MonoBehaviour
             case State.Normal:
 
                 if (GameInput.Instance.IsLanderUp() || GameInput.Instance.IsLanderRight() ||
-                    GameInput.Instance.IsLanderLeft() || GameInput.Instance.GetLanderMovement() != Vector2.zero)
+                    GameInput.Instance.IsLanderLeft())
                 {
                     // if any of the keys is pressed, we will consume fuel
 
@@ -115,9 +120,9 @@ public class Lander : MonoBehaviour
 
 
 
-                float deadZone = 0.4f;
 
-                if (GameInput.Instance.IsLanderUp() || GameInput.Instance.GetLanderMovement().y > deadZone)
+
+                if (GameInput.Instance.IsLanderUp())
                 {
                     float force = 700f;
                     landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
@@ -125,14 +130,14 @@ public class Lander : MonoBehaviour
                     OnUpForce?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (GameInput.Instance.IsLanderLeft() || GameInput.Instance.GetLanderMovement().x < -deadZone)
+                if (GameInput.Instance.IsLanderLeft())
                 {
                     float rotateSpeed = 100f;
                     landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
                     OnLeftForce?.Invoke(this, EventArgs.Empty);
                 }
 
-                if (GameInput.Instance.IsLanderRight() || GameInput.Instance.GetLanderMovement().x > deadZone)
+                if (GameInput.Instance.IsLanderRight())
                 {
                     float rotateSpeed = -100f;
                     landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
@@ -241,13 +246,19 @@ public class Lander : MonoBehaviour
                 fuelAmount = maxFuelAmount;
 
             }
+            fuelPickup.SpawnPickupPopup("Fuel");
 
             fuelPickup.DestroySelf();
 
         }
         if (collision.gameObject.TryGetComponent(out CoinPickup coinPickup))
         {
-            OnCoinPickup?.Invoke(this, EventArgs.Empty);
+            OnCoinPickup?.Invoke(this, new OnCoinPickupEventArgs
+            {
+                scoreAmount = coinPickup.GetScoreAmount()
+            });
+
+            coinPickup.SpawnPickupPopup("+" + coinPickup.GetScoreAmount());
             coinPickup.DestroySelf();
         }
     }

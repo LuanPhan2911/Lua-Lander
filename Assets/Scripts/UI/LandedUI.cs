@@ -34,8 +34,8 @@ public class LandedUI : MonoBehaviour
         Show();
         if (e.landedState == Lander.LandedState.Success)
         {
-            titleTextMesh.text = "Landing Successful!";
-            nextButtonTextMesh.text = "Next Level";
+            titleTextMesh.text = "LANDING SUCCESSFUL!";
+            nextButtonTextMesh.text = "NEXT";
 
             NextButtonClick = () =>
             {
@@ -45,8 +45,8 @@ public class LandedUI : MonoBehaviour
         }
         else
         {
-            titleTextMesh.text = "Crash";
-            nextButtonTextMesh.text = "Restart";
+            titleTextMesh.text = "CRASH";
+            nextButtonTextMesh.text = "RESTART";
             NextButtonClick = () =>
             {
                 GameManager.Instance.RestartLevel();

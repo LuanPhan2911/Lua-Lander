@@ -1,9 +1,8 @@
-using UnityEngine;
-
-public class FuelPickup : MonoBehaviour
+public class FuelPickup : Pickup
 {
 
     private float addedFuel = 5f;
+
 
 
     public void DestroySelf()

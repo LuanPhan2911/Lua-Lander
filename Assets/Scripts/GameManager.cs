@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Lander;
 
 public class GameManager : MonoBehaviour
 {
@@ -108,9 +109,9 @@ public class GameManager : MonoBehaviour
         AddScore(e.score);
     }
 
-    private void Lander_OnCoinPickup(object sender, System.EventArgs e)
+    private void Lander_OnCoinPickup(object sender, OnCoinPickupEventArgs e)
     {
-        AddScore(500);
+        AddScore(e.scoreAmount);
     }
 
     private void AddScore(int scoreAmount)

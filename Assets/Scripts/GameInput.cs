@@ -44,8 +44,5 @@ public class GameInput : MonoBehaviour
 
     }
 
-    public Vector2 GetLanderMovement()
-    {
-        return inputSystem.Player.Movement.ReadValue<Vector2>();
-    }
+
 }

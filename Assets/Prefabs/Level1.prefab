@@ -943,6 +943,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoinPickup
       objectReference: {fileID: 0}
+    - target: {fileID: 8595116720440796531, guid: 2df8640b3ee049d42856cdbc196ac976, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595116720440796531, guid: 2df8640b3ee049d42856cdbc196ac976, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595116720440796531, guid: 2df8640b3ee049d42856cdbc196ac976, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

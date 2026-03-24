@@ -6,6 +6,7 @@ public class Lander : MonoBehaviour
 
 
     [SerializeField] private ExplosionShake explosionShake;
+    [SerializeField] private ParticleSystem pickupCoinEffect;
 
     public State state;
     private Rigidbody2D landerRigidbody2D;
@@ -57,7 +58,7 @@ public class Lander : MonoBehaviour
         Crash,
         TooFast,
         SteepAngle,
-        OutOfFuel
+
     }
 
     public enum State
@@ -185,7 +186,7 @@ public class Lander : MonoBehaviour
             return;
         }
 
-        float softLandingVelocityMagnitude = 5f;
+        float softLandingVelocityMagnitude = 10f;
         float velocityMagnitude = collision.relativeVelocity.magnitude;
         if (velocityMagnitude > softLandingVelocityMagnitude)
         {
@@ -198,10 +199,12 @@ public class Lander : MonoBehaviour
                 landingSpeed = velocityMagnitude,
                 multiplier = landingPad.GetScoreMultiplier()
             });
+            // impulse cinemachine effect 
 
+            explosionShake.Shake();
             return;
         }
-        float minDotVector = 0.9f;
+        float minDotVector = 0.7f;
         float dotVector = Vector2.Dot(Vector2.up, transform.up);
         if (dotVector < minDotVector)
         {
@@ -214,7 +217,9 @@ public class Lander : MonoBehaviour
                 landingSpeed = velocityMagnitude,
                 multiplier = landingPad.GetScoreMultiplier()
             });
+            // impulse cinemachine effect 
 
+            explosionShake.Shake();
             return;
         }
 
@@ -243,6 +248,7 @@ public class Lander : MonoBehaviour
             landingSpeed = velocityMagnitude,
             multiplier = landingPad.GetScoreMultiplier()
         });
+        landerRigidbody2D.gravityScale = 0f;
 
     }
 
@@ -271,6 +277,7 @@ public class Lander : MonoBehaviour
             {
                 scoreAmount = coinPickup.GetScoreAmount()
             });
+            pickupCoinEffect.Play();
 
             coinPickup.SpawnPickupPopup("+" + coinPickup.GetScoreAmount());
             coinPickup.DestroySelf();

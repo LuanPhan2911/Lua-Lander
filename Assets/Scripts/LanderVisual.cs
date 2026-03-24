@@ -27,7 +27,7 @@ public class LanderVisual : MonoBehaviour
 
     private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)
     {
-        if (e.landedState == Lander.LandedState.Crash || e.landedState == Lander.LandedState.TooFast)
+        if (e.landedState != Lander.LandedState.Success)
         {
             Instantiate(crashParticleSystem, transform.position, Quaternion.identity);
             gameObject.SetActive(false);

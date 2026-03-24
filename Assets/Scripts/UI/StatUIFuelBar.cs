@@ -10,6 +10,8 @@ public class StatUIFuelBar : MonoBehaviour
     [SerializeField] private Color averageFuelBarColor;
     [SerializeField] private Color lowFuelBarColor;
 
+
+
     private void Update()
     {
         UpdateFuelBar();
@@ -20,11 +22,11 @@ public class StatUIFuelBar : MonoBehaviour
     {
         fuelBarImage.fillAmount = Lander.Instance.GetFuelNormalized();
 
-        if (fuelBarImage.fillAmount > 0.5f)
+        if (fuelBarImage.fillAmount > Lander.AVERAGE_FUEL_THRESHOLD)
         {
             fuelBarImage.color = highFuelBarColor;
         }
-        else if (fuelBarImage.fillAmount > 0.25f)
+        else if (fuelBarImage.fillAmount > Lander.LOW_FUEL_THRESHOLD)
         {
             fuelBarImage.color = averageFuelBarColor;
         }

@@ -16,6 +16,13 @@ public class Lander : MonoBehaviour
     public event EventHandler OnRightForce;
     public event EventHandler OnBeforeForce;
 
+
+    public const float LOW_FUEL_THRESHOLD = 0.3f;
+    public const float AVERAGE_FUEL_THRESHOLD = 0.5f;
+    public event EventHandler OnFuelChanged;
+
+
+
     public event EventHandler<OnCoinPickupEventArgs> OnCoinPickup;
 
     public class OnCoinPickupEventArgs : EventArgs
@@ -113,6 +120,7 @@ public class Lander : MonoBehaviour
                 if (fuelAmount <= 0f)
                 {
                     // if we have no fuel, we can't apply any force
+
 
                     return;
                 }
@@ -267,6 +275,12 @@ public class Lander : MonoBehaviour
         float fuelConsumptionRate = 1f;
 
         fuelAmount -= fuelConsumptionRate * Time.deltaTime;
+
+        OnFuelChanged?.Invoke(this, EventArgs.Empty);
+
+
+
+
     }
 
     public float GetSpeedX()

@@ -10,6 +10,8 @@ public class LandedUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statTextMesh;
     [SerializeField] private Button nextButton;
     [SerializeField] private TextMeshProUGUI nextButtonTextMesh;
+    [SerializeField] private GameObject fireworkGameObject;
+
     // Start is called before the first frame update
 
     private Action NextButtonClick;
@@ -37,9 +39,13 @@ public class LandedUI : MonoBehaviour
             titleTextMesh.text = "LANDING SUCCESSFUL!";
             nextButtonTextMesh.text = "NEXT";
 
+            GameObject firework = Instantiate(fireworkGameObject, Lander.Instance.transform.position - 10 * Vector3.up,
+                 Quaternion.identity);
+
             NextButtonClick = () =>
             {
                 GameManager.Instance.LoadNextLevel();
+                Destroy(firework);
 
             };
         }

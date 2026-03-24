@@ -4,6 +4,9 @@ public class Lander : MonoBehaviour
 {
     public static Lander Instance { get; private set; }
 
+
+    [SerializeField] private ExplosionShake explosionShake;
+
     public State state;
     private Rigidbody2D landerRigidbody2D;
 
@@ -176,6 +179,9 @@ public class Lander : MonoBehaviour
                 multiplier = 0
             });
 
+            // impulse cinemachine effect 
+
+            explosionShake.Shake();
             return;
         }
 

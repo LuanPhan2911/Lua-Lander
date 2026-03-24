@@ -169,4 +169,8 @@ public class GameManager : MonoBehaviour
     {
         return totalScore;
     }
+    public bool IsGamePaused()
+    {
+        return Time.timeScale == 0f;
+    }
 }

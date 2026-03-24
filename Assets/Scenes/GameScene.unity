@@ -3070,6 +3070,7 @@ MonoBehaviour:
   statTextMesh: {fileID: 613435258}
   nextButton: {fileID: 159754935}
   nextButtonTextMesh: {fileID: 607575666}
+  fireworkGameObject: {fileID: 7314432931236532904, guid: 78f3b1bc9356acd429726803eb912de2, type: 3}
 --- !u!1 &995935652
 GameObject:
   m_ObjectHideFlags: 0

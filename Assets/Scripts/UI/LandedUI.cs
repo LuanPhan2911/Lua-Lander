@@ -12,6 +12,8 @@ public class LandedUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nextButtonTextMesh;
     [SerializeField] private GameObject fireworkGameObject;
 
+
+
     // Start is called before the first frame update
 
     private Action NextButtonClick;

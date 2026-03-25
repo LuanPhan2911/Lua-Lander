@@ -88,6 +88,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: LandingPadx5
       objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_Color.b
+      value: 0.023529429
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_Color.g
+      value: 0.15009597
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_Color.r
+      value: 0.89411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_LocalBounds.m_Center.x
+      value: 0.92870003
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_LocalBounds.m_Center.y
+      value: -0.8443
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_LocalBounds.m_Extent.x
+      value: 1.2202001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_LocalBounds.m_Extent.y
+      value: 0.5585
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[0].x
+      value: 0.20601147
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[0].y
+      value: -0.8838695
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[1].x
+      value: 1.6488461
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[1].y
+      value: -0.90366864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[2].x
+      value: 1.5966337
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[2].y
+      value: -0.78658664
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[3].x
+      value: 0.29352862
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375720870976466801, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_ShapePath.Array.data[3].y
+      value: -0.81429386
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

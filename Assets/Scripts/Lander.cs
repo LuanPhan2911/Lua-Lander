@@ -8,6 +8,16 @@ public class Lander : MonoBehaviour
     [SerializeField] private ExplosionShake explosionShake;
     [SerializeField] private ParticleSystem pickupCoinEffect;
 
+
+    [SerializeField] private float softLandingVelocityMagnitude = 10f;
+    [SerializeField] float minAngleLanding = 0.7f;
+
+    [SerializeField] private float maxFuelAmount = 10f;
+    [SerializeField] private float forceLandingUp = 700f;
+    [SerializeField] private float rotateSpeed = 100f;
+
+    [SerializeField] private float fuelConsumptionRate = 1f;
+
     public State state;
     private Rigidbody2D landerRigidbody2D;
 
@@ -69,7 +79,7 @@ public class Lander : MonoBehaviour
     }
 
     private float fuelAmount;
-    private float maxFuelAmount = 10f;
+
 
 
 
@@ -136,23 +146,23 @@ public class Lander : MonoBehaviour
 
                 if (GameInput.Instance.IsLanderUp())
                 {
-                    float force = 700f;
-                    landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
+
+                    landerRigidbody2D.AddForce(forceLandingUp * transform.up * Time.deltaTime);
 
                     OnUpForce?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (GameInput.Instance.IsLanderLeft())
                 {
-                    float rotateSpeed = 100f;
+
                     landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
                     OnLeftForce?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (GameInput.Instance.IsLanderRight())
                 {
-                    float rotateSpeed = -100f;
-                    landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
+
+                    landerRigidbody2D.AddTorque(-rotateSpeed * Time.deltaTime);
                     OnRightForce?.Invoke(this, EventArgs.Empty);
                 }
                 break;
@@ -186,7 +196,7 @@ public class Lander : MonoBehaviour
             return;
         }
 
-        float softLandingVelocityMagnitude = 10f;
+
         float velocityMagnitude = collision.relativeVelocity.magnitude;
         if (velocityMagnitude > softLandingVelocityMagnitude)
         {
@@ -204,9 +214,9 @@ public class Lander : MonoBehaviour
             explosionShake.Shake();
             return;
         }
-        float minDotVector = 0.7f;
+
         float dotVector = Vector2.Dot(Vector2.up, transform.up);
-        if (dotVector < minDotVector)
+        if (dotVector < minAngleLanding)
         {
             Debug.Log("Landing too steep angle");
             OnLanded?.Invoke(this, new OnLandedEventArgs
@@ -285,7 +295,7 @@ public class Lander : MonoBehaviour
     }
     private void ConsumpFuel()
     {
-        float fuelConsumptionRate = 1f;
+
 
         fuelAmount -= fuelConsumptionRate * Time.deltaTime;
 

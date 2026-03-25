@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+
 public class LandingPadVisual : MonoBehaviour
 {
 
@@ -12,8 +13,12 @@ public class LandingPadVisual : MonoBehaviour
 
 
 
+
     private void Awake()
     {
         textMeshPro.text = $"x{GetComponent<LandingPad>().GetScoreMultiplier()}";
+
     }
+
+
 }

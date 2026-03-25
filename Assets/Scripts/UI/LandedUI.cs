@@ -38,7 +38,7 @@ public class LandedUI : MonoBehaviour
         Show();
         if (e.landedState == Lander.LandedState.Success)
         {
-            titleTextMesh.text = "LANDING SUCCESSFUL!";
+            titleTextMesh.text = "<wave><palette>LANDING SUCCESSFUL!</palette></wave>";
             nextButtonTextMesh.text = "NEXT";
 
             GameObject firework = Instantiate(fireworkGameObject, Lander.Instance.transform.position - 10 * Vector3.up,
@@ -53,7 +53,8 @@ public class LandedUI : MonoBehaviour
         }
         else
         {
-            titleTextMesh.text = "CRASH";
+            titleTextMesh.text = "<shake>CRASH</shake>";
+            titleTextMesh.color = Color.red;
             nextButtonTextMesh.text = "RESTART";
             NextButtonClick = () =>
             {

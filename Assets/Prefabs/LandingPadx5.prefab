@@ -64,6 +64,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3682840779933453590, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: m_text
+      value: 'x5
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 4510804387893002180, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.4
@@ -83,6 +89,10 @@ PrefabInstance:
     - target: {fileID: 4824630624927564706, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
       propertyPath: scoreMultiplier
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824630624927564706, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
+      propertyPath: IsNormalLandingPad
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5624862326545867019, guid: e139d3864069f3546919fafc4cf06ffd, type: 3}
       propertyPath: m_Name

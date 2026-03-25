@@ -7,7 +7,7 @@ public class GameLevel : MonoBehaviour
 
     [SerializeField] private Transform spawnLanderTransform;
 
-    [SerializeField] private Transform cinemachineCameraFollowTranfrom;
+
 
     [SerializeField] private float zoomOutSize;
 
@@ -20,10 +20,7 @@ public class GameLevel : MonoBehaviour
     {
         return spawnLanderTransform.position;
     }
-    public Transform GetCinemachineCameraFollowTransform()
-    {
-        return cinemachineCameraFollowTranfrom;
-    }
+
 
     public float GetZoomOutSize()
     {

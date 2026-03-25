@@ -53,6 +53,13 @@ public class Lander : MonoBehaviour
         public State state;
     }
 
+    public event EventHandler<OnSavePointReachedEventArgs> OnSavePointReached;
+
+    public class OnSavePointReachedEventArgs : EventArgs
+    {
+        public Vector3 savePointPosition;
+    }
+
     public class OnLandedEventArgs : EventArgs
     {
         public int score;
@@ -177,9 +184,10 @@ public class Lander : MonoBehaviour
     {
 
 
-        ChangeState(State.GameOver);
+
         if (!collision.gameObject.TryGetComponent<LandingPad>(out LandingPad landingPad))
         {
+            ChangeState(State.GameOver);
             Debug.Log("Crash on terrain");
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
@@ -197,7 +205,32 @@ public class Lander : MonoBehaviour
         }
 
 
-        float velocityMagnitude = collision.relativeVelocity.magnitude;
+
+        if (!landingPad.IsNormal())
+        {
+            float velocityMagnitude = collision.relativeVelocity.magnitude;
+            CalculateScore(landingPad, velocityMagnitude);
+        }
+        else
+        {
+            // save point for landing pad
+
+            OnSavePointReached?.Invoke(this, new OnSavePointReachedEventArgs
+            {
+                savePointPosition = transform.position
+            });
+
+
+
+        }
+
+
+
+
+    }
+    private void CalculateScore(LandingPad landingPad, float velocityMagnitude)
+    {
+
         if (velocityMagnitude > softLandingVelocityMagnitude)
         {
             Debug.Log("Landing too hard");
@@ -259,7 +292,6 @@ public class Lander : MonoBehaviour
             multiplier = landingPad.GetScoreMultiplier()
         });
         landerRigidbody2D.gravityScale = 0f;
-
     }
 
 

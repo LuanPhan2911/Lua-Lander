@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
     public event EventHandler OnGamePaused;
     public event EventHandler OnGameUnPaused;
 
+    private static Vector3 savePointPosition = Vector3.zero;
+
+
+
     private void Awake()
     {
         Instance = this;
@@ -37,9 +41,16 @@ public class GameManager : MonoBehaviour
         Lander.Instance.OnLanded += Lander_OnLanded;
 
         Lander.Instance.OnStateChanged += Lander_OnStateChanged;
+
+        Lander.Instance.OnSavePointReached += Lander_OnSavePointReached;
         LoadGameLevel();
 
         GameInput.Instance.OnMenuButtonPressed += GameInput_OnMenuButtonPressed; ;
+    }
+
+    private void Lander_OnSavePointReached(object sender, OnSavePointReachedEventArgs e)
+    {
+        savePointPosition = e.savePointPosition;
     }
 
     private void GameInput_OnMenuButtonPressed(object sender, System.EventArgs e)
@@ -74,6 +85,7 @@ public class GameManager : MonoBehaviour
     {
         levelNumber = 1;
         totalScore = 0;
+        savePointPosition = Vector3.zero;
     }
     private GameLevel GetGameLevel()
     {
@@ -90,9 +102,11 @@ public class GameManager : MonoBehaviour
     {
         GameLevel gameLevel = GetGameLevel();
         Instantiate(gameLevel, Vector3.zero, Quaternion.identity);
-        Vector3 spawnPosition = gameLevel.GetSpawnLanderPosition();
-        Lander.Instance.transform.position = spawnPosition;
-        cinemachineVirtualCamera.Follow = gameLevel.GetCinemachineCameraFollowTransform();
+        Vector3 spawnPosition = savePointPosition != Vector3.zero ? savePointPosition :
+            gameLevel.GetSpawnLanderPosition();
+        Lander.Instance.transform.position =
+           spawnPosition;
+        cinemachineVirtualCamera.Follow = Lander.Instance.transform;
         ZoomCinemachineCamera.Instance.SetZoomOutSize(gameLevel.GetZoomOutSize());
     }
 
@@ -137,6 +151,7 @@ public class GameManager : MonoBehaviour
     {
         levelNumber++;
         totalScore += score;
+        savePointPosition = Vector3.zero;
         if (GetGameLevel() == null)
         {
             SceneLoader.LoadScene(SceneLoader.Scene.GameOverScene);

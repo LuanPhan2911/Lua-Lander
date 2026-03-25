@@ -7926,7 +7926,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 27.476, y: 87}
+  m_AnchoredPosition: {x: 27.475952, y: 87}
   m_SizeDelta: {x: -419.874, y: -383.415}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995251318
@@ -8088,7 +8088,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <wave>SUCCESS LANDING!</wave>
+  m_text: <wave><palette>LANDING SUCCESSFUL!</palette></wave>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30fd7f1dc1df39b4ba461abbf37b996a, type: 2}
   m_sharedMaterial: {fileID: 4092161235638289357, guid: 30fd7f1dc1df39b4ba461abbf37b996a, type: 2}
@@ -8115,8 +8115,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8363,7 +8363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14680,7 +14680,7 @@ MonoBehaviour:
   minAngleLanding: 0.7
   maxFuelAmount: 10
   forceLandingUp: 700
-  rotateSpeed: 100
+  rotateSpeed: 50
   fuelConsumptionRate: 1
   state: 0
 --- !u!61 &1904191988

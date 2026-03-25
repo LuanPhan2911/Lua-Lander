@@ -36,12 +36,12 @@ public class LanderVisual : MonoBehaviour
 
     private void Lander_OnRightForce(object sender, System.EventArgs e)
     {
-        SetEnableParticleSystem(rightThrusterPaticleSystem, true);
+        SetEnableParticleSystem(leftThrusterPaticleSystem, true);
     }
 
     private void Lander_OnLeftForce(object sender, System.EventArgs e)
     {
-        SetEnableParticleSystem(leftThrusterPaticleSystem, true);
+        SetEnableParticleSystem(rightThrusterPaticleSystem, true);
     }
 
     private void Lander_OnBeforeForce(object sender, System.EventArgs e)

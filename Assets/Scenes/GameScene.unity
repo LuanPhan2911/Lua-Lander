@@ -14331,11 +14331,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Landing Speed
+  m_text: 'Time
+
+    Landing Speed
 
     Landing Angle
-
-    Multiplier
 
     Score'
   m_isRightToLeft: 0

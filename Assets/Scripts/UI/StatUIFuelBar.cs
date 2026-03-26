@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,14 +12,19 @@ public class StatUIFuelBar : MonoBehaviour
     [SerializeField] private Color lowFuelBarColor;
 
 
-
-    private void Update()
+    private void Start()
     {
-        UpdateFuelBar();
+        Lander.Instance.OnFuelChanged += Lander_OnFuelChanged;
+        UpdateStatFuelBar();
+    }
+
+    private void Lander_OnFuelChanged(object sender, EventArgs e)
+    {
+        UpdateStatFuelBar();
 
     }
 
-    public void UpdateFuelBar()
+    private void UpdateStatFuelBar()
     {
         fuelBarImage.fillAmount = Lander.Instance.GetFuelNormalized();
 
@@ -35,4 +41,8 @@ public class StatUIFuelBar : MonoBehaviour
             fuelBarImage.color = lowFuelBarColor;
         }
     }
+
+
+
+
 }

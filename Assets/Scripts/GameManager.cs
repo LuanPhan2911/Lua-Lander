@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
 
 
+
+
     private void Awake()
     {
         Instance = this;
@@ -43,9 +45,11 @@ public class GameManager : MonoBehaviour
         Lander.Instance.OnStateChanged += Lander_OnStateChanged;
 
         Lander.Instance.OnSavePointReached += Lander_OnSavePointReached;
-        LoadGameLevel();
 
-        GameInput.Instance.OnMenuButtonPressed += GameInput_OnMenuButtonPressed; ;
+
+        GameInput.Instance.OnMenuButtonPressed += GameInput_OnMenuButtonPressed;
+
+        LoadGameLevel();
     }
 
     private void Lander_OnSavePointReached(object sender, OnSavePointReachedEventArgs e)
@@ -102,8 +106,7 @@ public class GameManager : MonoBehaviour
     {
         GameLevel gameLevel = GetGameLevel();
         Instantiate(gameLevel, Vector3.zero, Quaternion.identity);
-        Vector3 spawnPosition = savePointPosition != Vector3.zero ? savePointPosition :
-            gameLevel.GetSpawnLanderPosition();
+        Vector3 spawnPosition = gameLevel.GetSpawnLanderPosition();
         Lander.Instance.transform.position =
            spawnPosition;
         cinemachineVirtualCamera.Follow = Lander.Instance.transform;
@@ -147,6 +150,14 @@ public class GameManager : MonoBehaviour
     {
         SceneLoader.LoadScene(SceneLoader.Scene.GameScene);
     }
+    public void LoadSavePointLevel()
+    {
+        Lander.Instance.transform.position = savePointPosition;
+        cinemachineVirtualCamera.Follow = Lander.Instance.transform;
+        Lander.Instance.ResetToInitialState();
+
+
+    }
     public void LoadNextLevel()
     {
         levelNumber++;
@@ -187,5 +198,10 @@ public class GameManager : MonoBehaviour
     public bool IsGamePaused()
     {
         return Time.timeScale == 0f;
+    }
+
+    public bool IsHaveSavePoint()
+    {
+        return savePointPosition != Vector3.zero;
     }
 }

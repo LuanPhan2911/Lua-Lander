@@ -64,7 +64,6 @@ public class Lander : MonoBehaviour
     {
         public int score;
         public LandedState landedState;
-        public int multiplier;
         public float landingSpeed;
         public float landingAngle;
     }
@@ -97,7 +96,7 @@ public class Lander : MonoBehaviour
         landerRigidbody2D = GetComponent<Rigidbody2D>();
 
 
-        state = State.WaitingToStart;
+        ChangeState(State.WaitingToStart);
 
 
     }
@@ -105,7 +104,73 @@ public class Lander : MonoBehaviour
     private void FixedUpdate()
     {
 
+        HandleMovement();
 
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+
+
+        if (!collision.gameObject.TryGetComponent<LandingPad>(out LandingPad landingPad))
+        {
+            ChangeState(State.GameOver);
+            Debug.Log("Crash on terrain");
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                score = 0,
+                landedState = LandedState.Crash,
+                landingAngle = 0f,
+                landingSpeed = 0f,
+
+            });
+
+            // impulse cinemachine effect 
+
+            explosionShake.Shake();
+            return;
+        }
+
+
+
+        if (landingPad is LandingPadFinish)
+        {
+            float velocityMagnitude = collision.relativeVelocity.magnitude;
+            CalculateScore(landingPad as LandingPadFinish, velocityMagnitude);
+        }
+        else if (landingPad is LandingPadSavePoint)
+        {
+            // save point for landing pad
+
+            OnSavePointReached?.Invoke(this, new OnSavePointReachedEventArgs
+            {
+                savePointPosition = transform.position
+            });
+
+
+        }
+
+
+
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out LandingPad landingPad))
+        {
+
+            if (landingPad is LandingPadSavePoint)
+            {
+                float fuelMultiplier = 10f;
+                AddFuel(Time.deltaTime * fuelMultiplier);
+            }
+        }
+    }
+    private void HandleMovement()
+    {
         OnBeforeForce?.Invoke(this, EventArgs.Empty);
         switch (state)
         {
@@ -177,58 +242,8 @@ public class Lander : MonoBehaviour
                 break;
         }
 
-
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-
-
-
-        if (!collision.gameObject.TryGetComponent<LandingPad>(out LandingPad landingPad))
-        {
-            ChangeState(State.GameOver);
-            Debug.Log("Crash on terrain");
-            OnLanded?.Invoke(this, new OnLandedEventArgs
-            {
-                score = 0,
-                landedState = LandedState.Crash,
-                landingAngle = 0f,
-                landingSpeed = 0f,
-                multiplier = 0
-            });
-
-            // impulse cinemachine effect 
-
-            explosionShake.Shake();
-            return;
-        }
-
-
-
-        if (!landingPad.IsNormal())
-        {
-            float velocityMagnitude = collision.relativeVelocity.magnitude;
-            CalculateScore(landingPad, velocityMagnitude);
-        }
-        else
-        {
-            // save point for landing pad
-
-            OnSavePointReached?.Invoke(this, new OnSavePointReachedEventArgs
-            {
-                savePointPosition = transform.position
-            });
-
-
-
-        }
-
-
-
-
-    }
-    private void CalculateScore(LandingPad landingPad, float velocityMagnitude)
+    private void CalculateScore(LandingPadFinish landingPad, float velocityMagnitude)
     {
 
         if (velocityMagnitude > softLandingVelocityMagnitude)
@@ -240,7 +255,7 @@ public class Lander : MonoBehaviour
                 landedState = LandedState.TooFast,
                 landingAngle = 0f,
                 landingSpeed = velocityMagnitude,
-                multiplier = landingPad.GetScoreMultiplier()
+
             });
             // impulse cinemachine effect 
 
@@ -258,7 +273,7 @@ public class Lander : MonoBehaviour
                 landedState = LandedState.SteepAngle,
                 landingAngle = dotVector,
                 landingSpeed = velocityMagnitude,
-                multiplier = landingPad.GetScoreMultiplier()
+
             });
             // impulse cinemachine effect 
 
@@ -280,7 +295,7 @@ public class Lander : MonoBehaviour
         Debug.Log("SpeedScore " + landingSpeedScore);
 
 
-        int score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
+        int score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore));
         Debug.Log("Landing success");
 
         OnLanded?.Invoke(this, new OnLandedEventArgs
@@ -289,7 +304,7 @@ public class Lander : MonoBehaviour
             landedState = LandedState.Success,
             landingAngle = dotVector,
             landingSpeed = velocityMagnitude,
-            multiplier = landingPad.GetScoreMultiplier()
+
         });
         landerRigidbody2D.gravityScale = 0f;
     }
@@ -301,15 +316,9 @@ public class Lander : MonoBehaviour
         {
 
 
-            fuelAmount += fuelPickup.GetAddedFuel();
+            AddFuel(fuelPickup.GetAddedFuel());
             OnFuelPickup?.Invoke(this, EventArgs.Empty);
-            if (fuelAmount > maxFuelAmount)
-            {
-                fuelAmount = maxFuelAmount;
-
-            }
             fuelPickup.SpawnPickupPopup("Fuel");
-
             fuelPickup.DestroySelf();
 
         }
@@ -327,15 +336,17 @@ public class Lander : MonoBehaviour
     }
     private void ConsumpFuel()
     {
-
-
         fuelAmount -= fuelConsumptionRate * Time.deltaTime;
-
         OnFuelChanged?.Invoke(this, EventArgs.Empty);
-
-
-
-
+    }
+    private void AddFuel(float fuelAmount)
+    {
+        this.fuelAmount += fuelAmount;
+        if (this.fuelAmount > maxFuelAmount)
+        {
+            this.fuelAmount = maxFuelAmount;
+        }
+        OnFuelChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public float GetSpeedX()
@@ -363,5 +374,15 @@ public class Lander : MonoBehaviour
             state = state
         });
 
+    }
+
+
+
+    public void ResetToInitialState()
+    {
+        ChangeState(State.WaitingToStart);
+        gameObject.SetActive(true);
+        transform.rotation = Quaternion.identity;
+        fuelAmount = maxFuelAmount;
     }
 }

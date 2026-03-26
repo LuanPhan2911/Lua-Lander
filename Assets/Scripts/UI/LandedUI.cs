@@ -10,6 +10,7 @@ public class LandedUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statTextMesh;
     [SerializeField] private Button nextButton;
     [SerializeField] private TextMeshProUGUI nextButtonTextMesh;
+    [SerializeField] private Button loadOnSavePointButton;
     [SerializeField] private GameObject fireworkGameObject;
 
 
@@ -18,11 +19,18 @@ public class LandedUI : MonoBehaviour
 
     private Action NextButtonClick;
 
+
     private void Awake()
     {
         nextButton.onClick.AddListener(() =>
         {
             NextButtonClick();
+        });
+
+        loadOnSavePointButton.onClick.AddListener(() =>
+        {
+            LoadSavePoint();
+
         });
     }
 
@@ -30,7 +38,15 @@ public class LandedUI : MonoBehaviour
     {
 
         Lander.Instance.OnLanded += Lander_OnLanded;
+        Lander.Instance.OnSavePointReached += Lander_OnSavePointReached;
+        loadOnSavePointButton.interactable = false;
+
         Hide();
+    }
+
+    private void Lander_OnSavePointReached(object sender, Lander.OnSavePointReachedEventArgs e)
+    {
+        loadOnSavePointButton.interactable = GameManager.Instance.IsHaveSavePoint();
     }
 
     private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)
@@ -63,12 +79,18 @@ public class LandedUI : MonoBehaviour
 
         }
         statTextMesh.text =
+                 $"{Mathf.Round(GameManager.Instance.GetTime())}\n" +
                  $"{Mathf.Round(e.landingSpeed) * 10}\n" +
                  $"{Mathf.Round(e.landingAngle * 100)}\n" +
-                 $"x{e.multiplier}\n" +
-                 $"{e.score}";
+                 $"{GameManager.Instance.GetScore()}";
 
 
+    }
+
+    private void LoadSavePoint()
+    {
+        GameManager.Instance.LoadSavePointLevel();
+        Hide();
     }
 
     private void Show()

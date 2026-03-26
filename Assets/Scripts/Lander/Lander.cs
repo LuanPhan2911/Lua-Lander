@@ -57,7 +57,7 @@ public class Lander : MonoBehaviour
 
     public class OnSavePointReachedEventArgs : EventArgs
     {
-        public Vector3 savePointPosition;
+        public LandingPadSavePoint landingPadSavePoint;
     }
 
     public class OnLandedEventArgs : EventArgs
@@ -143,11 +143,19 @@ public class Lander : MonoBehaviour
         else if (landingPad is LandingPadSavePoint)
         {
             // save point for landing pad
+            LandingPadSavePoint landingPadSavePoint = landingPad as LandingPadSavePoint;
+            if (landingPadSavePoint == GameManager.Instance.GetLandingPadSavePoint())
+            {
+                return;
+            }
+
 
             OnSavePointReached?.Invoke(this, new OnSavePointReachedEventArgs
             {
-                savePointPosition = transform.position
+                landingPadSavePoint = (landingPad as LandingPadSavePoint)
             });
+
+            GameManager.Instance.AddMessge("Save Point");
 
 
         }
@@ -319,7 +327,10 @@ public class Lander : MonoBehaviour
             AddFuel(fuelPickup.GetAddedFuel());
             OnFuelPickup?.Invoke(this, EventArgs.Empty);
             fuelPickup.SpawnPickupPopup("Fuel");
-            fuelPickup.DestroySelf();
+            fuelPickup.Hide();
+            GameManager.Instance.AddMessge("Fuel Pickup");
+
+            GameManager.Instance.AddPickedUpItemBeforeSavePoint(fuelPickup);
 
         }
         if (collision.gameObject.TryGetComponent(out CoinPickup coinPickup))
@@ -331,7 +342,10 @@ public class Lander : MonoBehaviour
             pickupCoinEffect.Play();
 
             coinPickup.SpawnPickupPopup("+" + coinPickup.GetScoreAmount());
-            coinPickup.DestroySelf();
+            coinPickup.Hide();
+            GameManager.Instance.AddMessge("Coin Pickup");
+
+            GameManager.Instance.AddPickedUpItemBeforeSavePoint(coinPickup);
         }
     }
     private void ConsumpFuel()

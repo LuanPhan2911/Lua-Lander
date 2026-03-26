@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2544360196999594503}
   - component: {fileID: 3392291235985121119}
-  - component: {fileID: 8766434594109817633}
+  - component: {fileID: -71453610179927269}
   m_Layer: 0
   m_Name: LandingPadFinish
   m_TagString: Untagged
@@ -246,7 +246,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7913593, y: 0.70242935}
   m_EdgeRadius: 0
---- !u!114 &8766434594109817633
+--- !u!114 &-71453610179927269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,5 +258,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32714f3aef8819346ae19d62b898b4f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreMultiplier: 5
-  IsNormalLandingPad: 0
+  savePointTransform: {fileID: 0}

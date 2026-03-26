@@ -27,11 +27,19 @@ public class GameManager : MonoBehaviour
     public event EventHandler OnGamePaused;
     public event EventHandler OnGameUnPaused;
 
-    private static Vector3 savePointPosition = Vector3.zero;
+    private static LandingPadSavePoint landingPadSavePoint;
+
+    private HashSet<Pickup> pickedUpItemBeforeSavePoint = new HashSet<Pickup>();
 
 
 
 
+
+    public event EventHandler<OnMessageAddedEventArgs> OnMessageAdded;
+    public class OnMessageAddedEventArgs : EventArgs
+    {
+        public string message;
+    }
 
     private void Awake()
     {
@@ -54,7 +62,12 @@ public class GameManager : MonoBehaviour
 
     private void Lander_OnSavePointReached(object sender, OnSavePointReachedEventArgs e)
     {
-        savePointPosition = e.savePointPosition;
+        landingPadSavePoint = e.landingPadSavePoint;
+        foreach (Pickup item in pickedUpItemBeforeSavePoint)
+        {
+            item.SetIsPickedUpBeforeSavePoint(true);
+        }
+
     }
 
     private void GameInput_OnMenuButtonPressed(object sender, System.EventArgs e)
@@ -89,7 +102,7 @@ public class GameManager : MonoBehaviour
     {
         levelNumber = 1;
         totalScore = 0;
-        savePointPosition = Vector3.zero;
+        landingPadSavePoint = null;
     }
     private GameLevel GetGameLevel()
     {
@@ -152,9 +165,17 @@ public class GameManager : MonoBehaviour
     }
     public void LoadSavePointLevel()
     {
-        Lander.Instance.transform.position = savePointPosition;
+        Lander.Instance.transform.position = landingPadSavePoint.GetSavePointPosition();
         cinemachineVirtualCamera.Follow = Lander.Instance.transform;
         Lander.Instance.ResetToInitialState();
+
+        foreach (Pickup item in pickedUpItemBeforeSavePoint)
+        {
+            if (!item.GetIsPickedUpBeforeSavePoint())
+            {
+                item.Show();
+            }
+        }
 
 
     }
@@ -162,7 +183,7 @@ public class GameManager : MonoBehaviour
     {
         levelNumber++;
         totalScore += score;
-        savePointPosition = Vector3.zero;
+        landingPadSavePoint = null;
         if (GetGameLevel() == null)
         {
             SceneLoader.LoadScene(SceneLoader.Scene.GameOverScene);
@@ -202,6 +223,32 @@ public class GameManager : MonoBehaviour
 
     public bool IsHaveSavePoint()
     {
-        return savePointPosition != Vector3.zero;
+        return landingPadSavePoint != null;
     }
+    public LandingPadSavePoint GetLandingPadSavePoint()
+    {
+        return landingPadSavePoint;
+    }
+
+    public string GetTimeFormatted()
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
+        return timeSpan.ToString(@"mm\:ss");
+    }
+
+    public void AddMessge(string message)
+    {
+
+        OnMessageAdded?.Invoke(this, new OnMessageAddedEventArgs
+        {
+            message = message
+        });
+
+    }
+
+    public void AddPickedUpItemBeforeSavePoint(Pickup item)
+    {
+        pickedUpItemBeforeSavePoint.Add(item);
+    }
+
 }

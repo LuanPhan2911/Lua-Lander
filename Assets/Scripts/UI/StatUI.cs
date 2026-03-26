@@ -28,9 +28,9 @@ public class StatUI : MonoBehaviour
 
 
         statMeshPro.text =
+            $"{GameManager.Instance.GetTimeFormatted()}\n" +
             $"{GameManager.Instance.GetLevelNumber()}\n" +
             $"{Mathf.Round(GameManager.Instance.GetScore())}\n" +
-            $"{Mathf.Round(GameManager.Instance.GetTime())}\n" +
             $"{Mathf.Round(Lander.Instance.GetSpeedX())}\n" +
             $"{Mathf.Round(Lander.Instance.GetSpeedY())}\n";
 

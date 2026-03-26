@@ -9,8 +9,7 @@ public class Lander : MonoBehaviour
     [SerializeField] private ParticleSystem pickupCoinEffect;
 
 
-    [SerializeField] private float softLandingVelocityMagnitude = 10f;
-    [SerializeField] float minAngleLanding = 0.7f;
+
 
     [SerializeField] private float maxFuelAmount = 10f;
     [SerializeField] private float forceLandingUp = 700f;
@@ -62,10 +61,8 @@ public class Lander : MonoBehaviour
 
     public class OnLandedEventArgs : EventArgs
     {
-        public int score;
+
         public LandedState landedState;
-        public float landingSpeed;
-        public float landingAngle;
     }
 
     public enum LandedState
@@ -120,11 +117,7 @@ public class Lander : MonoBehaviour
             Debug.Log("Crash on terrain");
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
-                score = 0,
                 landedState = LandedState.Crash,
-                landingAngle = 0f,
-                landingSpeed = 0f,
-
             });
 
             // impulse cinemachine effect 
@@ -137,8 +130,15 @@ public class Lander : MonoBehaviour
 
         if (landingPad is LandingPadFinish)
         {
-            float velocityMagnitude = collision.relativeVelocity.magnitude;
-            CalculateScore(landingPad as LandingPadFinish, velocityMagnitude);
+
+            Debug.Log("Landing success");
+
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                landedState = LandedState.Success,
+
+            });
+            landerRigidbody2D.gravityScale = 0f;
         }
         else if (landingPad is LandingPadSavePoint)
         {
@@ -251,71 +251,7 @@ public class Lander : MonoBehaviour
         }
 
     }
-    private void CalculateScore(LandingPadFinish landingPad, float velocityMagnitude)
-    {
 
-        if (velocityMagnitude > softLandingVelocityMagnitude)
-        {
-            Debug.Log("Landing too hard");
-            OnLanded?.Invoke(this, new OnLandedEventArgs
-            {
-                score = 0,
-                landedState = LandedState.TooFast,
-                landingAngle = 0f,
-                landingSpeed = velocityMagnitude,
-
-            });
-            // impulse cinemachine effect 
-
-            explosionShake.Shake();
-            return;
-        }
-
-        float dotVector = Vector2.Dot(Vector2.up, transform.up);
-        if (dotVector < minAngleLanding)
-        {
-            Debug.Log("Landing too steep angle");
-            OnLanded?.Invoke(this, new OnLandedEventArgs
-            {
-                score = 0,
-                landedState = LandedState.SteepAngle,
-                landingAngle = dotVector,
-                landingSpeed = velocityMagnitude,
-
-            });
-            // impulse cinemachine effect 
-
-            explosionShake.Shake();
-            return;
-        }
-
-        float maxScoreAmountLandingAngle = 100f;
-        float scoreDotVectorMultiplier = 10f;
-        float landingAngleScore = maxScoreAmountLandingAngle -
-            Mathf.Abs(dotVector - 1f) * scoreDotVectorMultiplier * maxScoreAmountLandingAngle;
-
-
-        float maxScoreAmoutSpeed = 100f;
-        float landingSpeedScore = maxScoreAmoutSpeed * (softLandingVelocityMagnitude - velocityMagnitude);
-
-
-        Debug.Log("LandingScore " + landingAngleScore);
-        Debug.Log("SpeedScore " + landingSpeedScore);
-
-
-        int score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore));
-        Debug.Log("Landing success");
-
-        OnLanded?.Invoke(this, new OnLandedEventArgs
-        {
-            score = score,
-            landedState = LandedState.Success,
-            landingAngle = dotVector,
-            landingSpeed = velocityMagnitude,
-
-        });
-        landerRigidbody2D.gravityScale = 0f;
-    }
 
 
     private void OnTriggerEnter2D(Collider2D collision)

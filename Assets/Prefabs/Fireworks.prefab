@@ -9710,6 +9710,7 @@ GameObject:
   - component: {fileID: 6532265251761399176}
   - component: {fileID: 3711536501383712383}
   - component: {fileID: 3314069938921883211}
+  - component: {fileID: 4788020027350097629}
   m_Layer: 0
   m_Name: Fireworks
   m_TagString: Untagged
@@ -9744,7 +9745,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 85048c3725acbc54e9dd07767928905d, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -9839,6 +9840,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f12658a04cdc2d04c87fd317548dacf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 3711536501383712383}
+  delayBeforePlayingSound: 3
+--- !u!114 &4788020027350097629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7314432931236532904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7112fc08986f3548a63481040a0f726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 3711536501383712383}

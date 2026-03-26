@@ -3,32 +3,18 @@ using UnityEngine;
 
 public class LanderThrusterSound : MonoBehaviour
 {
-    private AudioSource audioSource;
-
-    private void Awake()
-    {
-        audioSource = GetComponent<AudioSource>();
+    [SerializeField] private AudioSource audioSource;
 
 
-    }
     void Start()
     {
         Lander.Instance.OnUpForce += Lander_OnUpForce;
         Lander.Instance.OnLeftForce += Lander_OnLeftForce;
         Lander.Instance.OnRightForce += Lander_OnRightForce;
         Lander.Instance.OnBeforeForce += Lander_OnBeforeForce;
-
-        SoundManager.Instance.OnSoundVolumeChanged += SoundManager_OnSoundVolumeChanged;
-
-
-        audioSource.Pause();
-        audioSource.volume = SoundManager.Instance.GetSoundVolumeNormalized();
     }
 
-    private void SoundManager_OnSoundVolumeChanged(object sender, EventArgs e)
-    {
-        audioSource.volume = SoundManager.Instance.GetSoundVolumeNormalized();
-    }
+
 
     private void Lander_OnBeforeForce(object sender, EventArgs e)
     {

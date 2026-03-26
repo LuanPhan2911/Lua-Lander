@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Lander.Instance.OnCoinPickup += Lander_OnCoinPickup; ;
-        Lander.Instance.OnLanded += Lander_OnLanded;
+
 
         Lander.Instance.OnStateChanged += Lander_OnStateChanged;
 
@@ -134,10 +134,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)
-    {
-        AddScore(e.score);
-    }
+
 
     private void Lander_OnCoinPickup(object sender, OnCoinPickupEventArgs e)
     {

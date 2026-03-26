@@ -4,17 +4,13 @@ using UnityEngine;
 public class FuelLowWarningUI : MonoBehaviour
 {
 
-    [SerializeField] private AudioSource warningAudioSource;
+
 
 
     private void Start()
     {
         Lander.Instance.OnFuelChanged += Lander_OnFuelChanged;
         Lander.Instance.OnLanded += Lander_OnLanded;
-
-        SoundManager.Instance.OnSoundVolumeChanged += SoundManager_OnSoundVolumeChanged;
-
-        warningAudioSource.volume = SoundManager.Instance.GetSoundVolumeNormalized();
         Hide();
     }
 
@@ -36,14 +32,6 @@ public class FuelLowWarningUI : MonoBehaviour
             Hide();
         }
     }
-
-    private void SoundManager_OnSoundVolumeChanged(object sender, EventArgs e)
-    {
-        warningAudioSource.volume = SoundManager.Instance.GetSoundVolumeNormalized();
-    }
-
-
-
     private void Show()
     {
         gameObject.SetActive(true);

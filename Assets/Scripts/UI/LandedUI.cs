@@ -79,9 +79,8 @@ public class LandedUI : MonoBehaviour
 
         }
         statTextMesh.text =
+                 $"{GameManager.Instance.GetLevelNumber()}\n" +
                  $"{GameManager.Instance.GetTimeFormatted()}\n" +
-                 $"{Mathf.Round(e.landingSpeed) * 10}\n" +
-                 $"{Mathf.Round(e.landingAngle * 100)}\n" +
                  $"{GameManager.Instance.GetScore()}";
 
 

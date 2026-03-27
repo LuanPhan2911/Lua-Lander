@@ -8,6 +8,8 @@ public class LanderVisual : MonoBehaviour
 
     [SerializeField] private GameObject crashParticleSystem;
 
+    [SerializeField] private int rateEmissionOverTime = 150;
+
 
     private Lander lander;
 
@@ -63,5 +65,7 @@ public class LanderVisual : MonoBehaviour
         ParticleSystem.EmissionModule emissionModule = particleSystem.emission;
 
         emissionModule.enabled = enabled;
+
+        emissionModule.rateOverTime = rateEmissionOverTime * BuffManager.Instance.GetEmissionMultiplier();
     }
 }

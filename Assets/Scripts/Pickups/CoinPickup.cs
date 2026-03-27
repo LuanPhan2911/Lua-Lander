@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CoinPickup : Pickup
+public class CoinPickup : InteractableObject
 {
 
 

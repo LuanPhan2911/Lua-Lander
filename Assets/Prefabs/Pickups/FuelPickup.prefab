@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df172dbef9ab514faefb3b4c0d958cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupPopupPrefab: {fileID: 8214189633608765057, guid: 2a45af3eb9024124d944f445ca37e895, type: 3}
+  message: Fuel Pickup
+  addedFuel: 5
 --- !u!61 &1848171283447906265
 BoxCollider2D:
   m_ObjectHideFlags: 0

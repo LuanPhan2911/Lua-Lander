@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a182732a9c9800f43ae126339c2e244b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupPopupPrefab: {fileID: 8214189633608765057, guid: 2a45af3eb9024124d944f445ca37e895, type: 3}
+  message: Coin Pickup
   scoreAmount: 100
 --- !u!95 &6000111696064628819
 Animator:

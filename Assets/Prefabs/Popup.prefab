@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: -2305463134306212177}
   - component: {fileID: 7098045476513962630}
   m_Layer: 0
-  m_Name: PickupPopup
+  m_Name: Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

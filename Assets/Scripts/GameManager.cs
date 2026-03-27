@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<GameLevel> gameLevels;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    [SerializeField] private GameObject popupPrefab;
 
 
     public event EventHandler OnGamePaused;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     private static LandingPadSavePoint landingPadSavePoint;
 
-    private HashSet<Pickup> pickedUpItemBeforeSavePoint = new HashSet<Pickup>();
+    private HashSet<InteractableObject> pickedUpItemBeforeSavePoint = new HashSet<InteractableObject>();
 
 
 
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
     {
         public string message;
     }
+
+
 
     private void Awake()
     {
@@ -63,9 +66,9 @@ public class GameManager : MonoBehaviour
     private void Lander_OnSavePointReached(object sender, OnSavePointReachedEventArgs e)
     {
         landingPadSavePoint = e.landingPadSavePoint;
-        foreach (Pickup item in pickedUpItemBeforeSavePoint)
+        foreach (InteractableObject item in pickedUpItemBeforeSavePoint)
         {
-            item.SetIsPickedUpBeforeSavePoint(true);
+            item.SetIsInteractedBeforeSavePoint(true);
         }
 
     }
@@ -138,7 +141,8 @@ public class GameManager : MonoBehaviour
 
     private void Lander_OnCoinPickup(object sender, OnCoinPickupEventArgs e)
     {
-        AddScore(e.scoreAmount);
+
+        AddScore(e.scoreAmount * BuffManager.Instance.GetScoreMultiplier());
     }
 
     private void AddScore(int scoreAmount)
@@ -166,9 +170,9 @@ public class GameManager : MonoBehaviour
         cinemachineVirtualCamera.Follow = Lander.Instance.transform;
         Lander.Instance.ResetToInitialState();
 
-        foreach (Pickup item in pickedUpItemBeforeSavePoint)
+        foreach (InteractableObject item in pickedUpItemBeforeSavePoint)
         {
-            if (!item.GetIsPickedUpBeforeSavePoint())
+            if (!item.GetIsInteractedBeforeSavePoint())
             {
                 item.Show();
             }
@@ -243,9 +247,13 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void AddPickedUpItemBeforeSavePoint(Pickup item)
+    public void AddPickedUpItemBeforeSavePoint(InteractableObject item)
     {
         pickedUpItemBeforeSavePoint.Add(item);
+    }
+    public GameObject GetPopupPrefab()
+    {
+        return popupPrefab;
     }
 
 }

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class PickupPopup : MonoBehaviour
+public class Popup : MonoBehaviour
 {
 
     [SerializeField] private TextMeshPro textMesh;

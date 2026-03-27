@@ -1,7 +1,9 @@
-public class FuelPickup : Pickup
+using UnityEngine;
+
+public class FuelPickup : InteractableObject
 {
 
-    private float addedFuel = 5f;
+    [SerializeField] private float addedFuel = 5f;
 
 
 

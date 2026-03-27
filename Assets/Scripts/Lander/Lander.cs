@@ -13,7 +13,7 @@ public class Lander : MonoBehaviour
 
     [SerializeField] private float maxFuelAmount = 10f;
     [SerializeField] private float forceLandingUp = 700f;
-    [SerializeField] private float rotateSpeed = 100f;
+    [SerializeField] private float rotateSpeed = 50f;
 
     [SerializeField] private float fuelConsumptionRate = 1f;
 
@@ -226,23 +226,24 @@ public class Lander : MonoBehaviour
 
                 if (GameInput.Instance.IsLanderUp())
                 {
-
-                    landerRigidbody2D.AddForce(forceLandingUp * transform.up * Time.deltaTime);
+                    Vector2 force = forceLandingUp * BuffManager.Instance.GetSpeedMultiplier()
+                        * transform.up * Time.deltaTime;
+                    landerRigidbody2D.AddForce(force);
 
                     OnUpForce?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (GameInput.Instance.IsLanderLeft())
                 {
-
-                    landerRigidbody2D.AddTorque(rotateSpeed * Time.deltaTime);
+                    float speed = rotateSpeed * BuffManager.Instance.GetSpeedMultiplier() * Time.deltaTime;
+                    landerRigidbody2D.AddTorque(speed);
                     OnLeftForce?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (GameInput.Instance.IsLanderRight())
                 {
-
-                    landerRigidbody2D.AddTorque(-rotateSpeed * Time.deltaTime);
+                    float speed = rotateSpeed * BuffManager.Instance.GetSpeedMultiplier() * Time.deltaTime;
+                    landerRigidbody2D.AddTorque(-speed);
                     OnRightForce?.Invoke(this, EventArgs.Empty);
                 }
                 break;
@@ -256,33 +257,35 @@ public class Lander : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out FuelPickup fuelPickup))
+        if (collision.gameObject.TryGetComponent(out InteractableObject interactableObject))
         {
+            GameManager.Instance.AddPickedUpItemBeforeSavePoint(interactableObject);
+            GameManager.Instance.AddMessge(interactableObject.GetMessage());
+            interactableObject.Hide();
 
-
-            AddFuel(fuelPickup.GetAddedFuel());
-            OnFuelPickup?.Invoke(this, EventArgs.Empty);
-            fuelPickup.SpawnPickupPopup("Fuel");
-            fuelPickup.Hide();
-            GameManager.Instance.AddMessge("Fuel Pickup");
-
-            GameManager.Instance.AddPickedUpItemBeforeSavePoint(fuelPickup);
-
-        }
-        if (collision.gameObject.TryGetComponent(out CoinPickup coinPickup))
-        {
-            OnCoinPickup?.Invoke(this, new OnCoinPickupEventArgs
+            if (interactableObject is FuelPickup fuelPickup)
             {
-                scoreAmount = coinPickup.GetScoreAmount()
-            });
-            pickupCoinEffect.Play();
+                AddFuel(fuelPickup.GetAddedFuel());
+                OnFuelPickup?.Invoke(this, EventArgs.Empty);
+                fuelPickup.SpawnPickupPopup("Fuel");
+            }
+            else if (interactableObject is CoinPickup coinPickup)
+            {
+                OnCoinPickup?.Invoke(this, new OnCoinPickupEventArgs
+                {
+                    scoreAmount = coinPickup.GetScoreAmount()
+                });
+                pickupCoinEffect.Play();
+                coinPickup.SpawnPickupPopup("+" + coinPickup.GetScoreAmount() * BuffManager.Instance.GetScoreMultiplier());
+            }
+            else if (interactableObject is BuffItem buffItem)
+            {
+                BuffManager.Instance.ActivateBuff(buffItem.GetBuffType());
 
-            coinPickup.SpawnPickupPopup("+" + coinPickup.GetScoreAmount());
-            coinPickup.Hide();
-            GameManager.Instance.AddMessge("Coin Pickup");
-
-            GameManager.Instance.AddPickedUpItemBeforeSavePoint(coinPickup);
+            }
         }
+
+
     }
     private void ConsumpFuel()
     {

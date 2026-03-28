@@ -11,20 +11,41 @@ public class LanderVisual : MonoBehaviour
     [SerializeField] private int rateEmissionOverTime = 150;
 
 
-    private Lander lander;
+    [SerializeField] private FlashEffect flashEffect;
+    [SerializeField] private float flashSpeed;
+
+
+    private Coroutine flashCoroutine;
+
+
+
+
 
     private void Awake()
     {
-        lander = GetComponent<Lander>();
 
-        lander.OnUpForce += Lander_OnUpForce;
-        lander.OnBeforeForce += Lander_OnBeforeForce;
 
-        lander.OnLeftForce += Lander_OnLeftForce;
-        lander.OnRightForce += Lander_OnRightForce;
+        Lander.Instance.OnUpForce += Lander_OnUpForce;
+        Lander.Instance.OnBeforeForce += Lander_OnBeforeForce;
 
-        lander.OnLanded += Lander_OnLanded;
+        Lander.Instance.OnLeftForce += Lander_OnLeftForce;
+        Lander.Instance.OnRightForce += Lander_OnRightForce;
 
+        Lander.Instance.OnLanded += Lander_OnLanded;
+
+    }
+
+    private void Update()
+    {
+        if (Lander.Instance.IsImmnueled())
+        {
+            if (flashCoroutine != null)
+            {
+                return;
+            }
+            flashCoroutine = StartCoroutine(flashEffect.FlashInterval(
+                Lander.Instance.GetImmnueableDuration(), flashSpeed));
+        }
     }
 
     private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)

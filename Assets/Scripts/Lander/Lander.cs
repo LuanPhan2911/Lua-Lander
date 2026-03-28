@@ -8,6 +8,8 @@ public class Lander : MonoBehaviour
     [SerializeField] private ExplosionShake explosionShake;
     [SerializeField] private ParticleSystem pickupCoinEffect;
 
+    [SerializeField] private LanderShield landerShield;
+
 
 
 
@@ -16,6 +18,10 @@ public class Lander : MonoBehaviour
     [SerializeField] private float rotateSpeed = 50f;
 
     [SerializeField] private float fuelConsumptionRate = 1f;
+
+    private bool isImmnueled = false;
+    [SerializeField] private float immunebledDuration = 2f;
+    private float immnunebledDurationTimer;
 
     public State state;
     private Rigidbody2D landerRigidbody2D;
@@ -90,6 +96,7 @@ public class Lander : MonoBehaviour
     {
         Instance = this;
         fuelAmount = maxFuelAmount;
+        immnunebledDurationTimer = immunebledDuration;
         landerRigidbody2D = GetComponent<Rigidbody2D>();
 
 
@@ -105,14 +112,26 @@ public class Lander : MonoBehaviour
 
 
     }
+    private void Update()
+    {
+        if (isImmnueled)
+        {
+            immnunebledDurationTimer -= Time.deltaTime;
+            if (immnunebledDurationTimer < 0f)
+            {
+                SetImmnuabled(false);
+                immnunebledDurationTimer = immunebledDuration;
+            }
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-
-
-        if (!collision.gameObject.TryGetComponent<LandingPad>(out LandingPad landingPad))
+        if (collision.gameObject.TryGetComponent(out DamageObject damageObject))
         {
+            if (isImmnueled) return;
+
             ChangeState(State.GameOver);
             Debug.Log("Crash on terrain");
             OnLanded?.Invoke(this, new OnLandedEventArgs
@@ -126,39 +145,44 @@ public class Lander : MonoBehaviour
             return;
         }
 
-
-
-        if (landingPad is LandingPadFinish)
+        if (collision.gameObject.TryGetComponent(out LandingPad landingPad))
         {
-
-            Debug.Log("Landing success");
-
-            OnLanded?.Invoke(this, new OnLandedEventArgs
+            if (landingPad is LandingPadFinish)
             {
-                landedState = LandedState.Success,
 
-            });
-            landerRigidbody2D.gravityScale = 0f;
-        }
-        else if (landingPad is LandingPadSavePoint)
-        {
-            // save point for landing pad
-            LandingPadSavePoint landingPadSavePoint = landingPad as LandingPadSavePoint;
-            if (landingPadSavePoint == GameManager.Instance.GetLandingPadSavePoint())
-            {
-                return;
+                Debug.Log("Landing success");
+
+                OnLanded?.Invoke(this, new OnLandedEventArgs
+                {
+                    landedState = LandedState.Success,
+
+                });
+                landerRigidbody2D.gravityScale = 0f;
             }
-
-
-            OnSavePointReached?.Invoke(this, new OnSavePointReachedEventArgs
+            else if (landingPad is LandingPadSavePoint landingPadSavePoint)
             {
-                landingPadSavePoint = (landingPad as LandingPadSavePoint)
-            });
+                // save point for landing pad
 
-            GameManager.Instance.AddMessge("Save Point");
+                if (landingPadSavePoint == GameManager.Instance.GetLandingPadSavePoint())
+                {
+                    return;
+                }
 
 
+                OnSavePointReached?.Invoke(this, new OnSavePointReachedEventArgs
+                {
+                    landingPadSavePoint = (landingPad as LandingPadSavePoint)
+                });
+
+                GameManager.Instance.AddMessge("Save Point");
+
+
+            }
         }
+
+
+
+
 
 
 
@@ -282,6 +306,11 @@ public class Lander : MonoBehaviour
             {
                 BuffManager.Instance.ActivateBuff(buffItem.GetBuffType());
 
+                if (buffItem.GetBuffType() == BuffManager.BuffType.Shield)
+                {
+                    landerShield.Show();
+                }
+
             }
         }
 
@@ -289,6 +318,10 @@ public class Lander : MonoBehaviour
     }
     private void ConsumpFuel()
     {
+        if (BuffManager.Instance.IsBuffActive(BuffManager.BuffType.InfiniteFuel))
+        {
+            return;
+        }
         fuelAmount -= fuelConsumptionRate * Time.deltaTime;
         OnFuelChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -338,4 +371,19 @@ public class Lander : MonoBehaviour
         transform.rotation = Quaternion.identity;
         fuelAmount = maxFuelAmount;
     }
+
+    public bool IsImmnueled()
+    {
+        return isImmnueled;
+    }
+    public void SetImmnuabled(bool value)
+    {
+        isImmnueled = value;
+    }
+
+    public float GetImmnueableDuration()
+    {
+        return immunebledDuration;
+    }
+
 }

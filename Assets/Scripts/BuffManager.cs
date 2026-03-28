@@ -65,6 +65,27 @@ public class BuffManager : MonoBehaviour
                 break;
         }
     }
+    public void DeactivateBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+
+            case BuffType.SpeedBoost:
+                speedBoostTimer = 0f;
+                break;
+            case BuffType.Shield:
+                shieldTimer = 0f;
+                break;
+            case BuffType.DoubleScore:
+                doubleScoreTimer = 0f;
+                break;
+            case BuffType.InfiniteFuel:
+                infiniteFuelTimer = 0f;
+                break;
+            default:
+                break;
+        }
+    }
 
     public float GetBuffTimer(BuffType buffType)
     {

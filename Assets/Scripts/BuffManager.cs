@@ -120,5 +120,23 @@ public class BuffManager : MonoBehaviour
     }
 
 
+    public float GetTimerNormalized(BuffType buffType)
+    {
+
+        switch (buffType)
+        {
+            case BuffType.SpeedBoost:
+                return speedBoostTimer / MAX_BUFF_DURATION;
+            case BuffType.Shield:
+                return shieldTimer / MAX_BUFF_DURATION;
+            case BuffType.DoubleScore:
+                return doubleScoreTimer / MAX_BUFF_DURATION;
+            case BuffType.InfiniteFuel:
+                return infiniteFuelTimer / MAX_BUFF_DURATION;
+            default: return 0f;
+
+        }
+    }
+
 
 }

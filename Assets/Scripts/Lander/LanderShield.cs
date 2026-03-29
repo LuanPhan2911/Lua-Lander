@@ -71,6 +71,7 @@ public class LanderShield : MonoBehaviour
             // trigger immune
 
             Lander.Instance.SetImmnuabled(true);
+            SoundManager.Instance.PlayShieldBreakSound();
 
         }
     }

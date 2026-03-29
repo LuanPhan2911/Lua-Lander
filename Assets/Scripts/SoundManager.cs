@@ -8,6 +8,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip landingSuccess;
     [SerializeField] private AudioClip landingCrash;
 
+    [SerializeField] private AudioClip getBuffSound;
+
+    [SerializeField] private AudioClip shieldBreakSound;
+
 
     public static SoundManager Instance { get; private set; }
 
@@ -68,5 +72,14 @@ public class SoundManager : MonoBehaviour
     public float GetSoundVolumeNormalized()
     {
         return (float)soundVolume / MAX_SOUND_VOLUME;
+    }
+
+    public void PlayGetBuffSound()
+    {
+        AudioSource.PlayClipAtPoint(getBuffSound, Camera.main.transform.position, GetSoundVolumeNormalized());
+    }
+    public void PlayShieldBreakSound()
+    {
+        AudioSource.PlayClipAtPoint(shieldBreakSound, Camera.main.transform.position, GetSoundVolumeNormalized());
     }
 }

@@ -133,7 +133,7 @@ public class Lander : MonoBehaviour
             if (isImmnueled) return;
 
             ChangeState(State.GameOver);
-            Debug.Log("Crash on terrain");
+
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
                 landedState = LandedState.Crash,

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Bubble
-  m_Shader: {fileID: -6465566751694194690, guid: 03a4a5de7aefaa14089c9fb44c119f47, type: 3}
+  m_Name: Lazer
+  m_Shader: {fileID: -6465566751694194690, guid: 2f5ca7c7b4670b54badb333b391ecf21, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,10 +23,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -41,11 +37,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Intersity: 0.483
+    - _Size: -1
     m_Colors:
-    - _Color: {r: 0.9245283, g: 0.06803123, b: 0.56501186, a: 0}
+    - _Color: {r: 0.827451, g: 0.098039225, b: 0.5881044, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &6354856526679990833
+--- !u!114 &7250381288053669978
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

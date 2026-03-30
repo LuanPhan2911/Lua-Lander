@@ -43,13 +43,11 @@ public class StatUIFuelBar : MonoBehaviour
 
     private void UpdateStatFuelBar()
     {
+        fuelBarImage.fillAmount = Lander.Instance.GetFuelNormalized();
         if (BuffManager.Instance.IsBuffActive(BuffManager.BuffType.InfiniteFuel))
         {
             return;
         }
-
-        fuelBarImage.fillAmount = Lander.Instance.GetFuelNormalized();
-
         if (fuelBarImage.fillAmount > Lander.AVERAGE_FUEL_THRESHOLD)
         {
             fuelBarImage.color = highFuelBarColor;

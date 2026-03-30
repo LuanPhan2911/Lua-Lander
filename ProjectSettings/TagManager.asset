@@ -41,6 +41,18 @@ TagManager:
   - name: Background
     uniqueID: 225903107
     locked: 0
+  - name: Terrain
+    uniqueID: 2805259739
+    locked: 0
+  - name: Object
+    uniqueID: 3508686731
+    locked: 0
+  - name: Item
+    uniqueID: 36013891
+    locked: 0
+  - name: Lander
+    uniqueID: 1328199017
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

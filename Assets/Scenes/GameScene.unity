@@ -8735,6 +8735,8 @@ MonoBehaviour:
   fuelPickup: {fileID: 8300000, guid: fbd9c5bf252a6c14b9bb3a84dba2510c, type: 3}
   landingSuccess: {fileID: 8300000, guid: 6d68f74438f613b45b2181d4e917474c, type: 3}
   landingCrash: {fileID: 8300000, guid: 4c9f9d63f11fa4d4ca1c537cd058256d, type: 3}
+  getBuffSound: {fileID: 8300000, guid: 2e0f6620a2d334044b5e3602d70d7e20, type: 3}
+  shieldBreakSound: {fileID: 8300000, guid: 467934a0caaac0c45841bbd0b1796bd0, type: 3}
 --- !u!4 &972773427
 Transform:
   m_ObjectHideFlags: 0

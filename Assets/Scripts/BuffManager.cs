@@ -138,5 +138,14 @@ public class BuffManager : MonoBehaviour
         }
     }
 
+    public void ResetBuffs()
+    {
+        speedBoostTimer = 0f;
+        shieldTimer = 0f;
+        doubleScoreTimer = 0f;
+        infiniteFuelTimer = 0f;
+        doubleScoreTimer = 0f;
+    }
+
 
 }

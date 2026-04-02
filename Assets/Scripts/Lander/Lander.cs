@@ -191,6 +191,22 @@ public class Lander : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        if (collision.gameObject.TryGetComponent(out DamageObject damageObject))
+        {
+            if (isImmnueled) return;
+
+            ChangeState(State.GameOver);
+
+            OnLanded?.Invoke(this, new OnLandedEventArgs
+            {
+                landedState = LandedState.Crash,
+            });
+
+            // impulse cinemachine effect 
+
+            explosionShake.Shake();
+            return;
+        }
         if (collision.gameObject.TryGetComponent(out LandingPad landingPad))
         {
 
@@ -259,14 +275,14 @@ public class Lander : MonoBehaviour
 
                 if (GameInput.Instance.IsLanderLeft())
                 {
-                    float speed = rotateSpeed * BuffManager.Instance.GetSpeedMultiplier() * Time.deltaTime;
+                    float speed = rotateSpeed * Time.deltaTime;
                     landerRigidbody2D.AddTorque(speed);
                     OnLeftForce?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (GameInput.Instance.IsLanderRight())
                 {
-                    float speed = rotateSpeed * BuffManager.Instance.GetSpeedMultiplier() * Time.deltaTime;
+                    float speed = rotateSpeed * Time.deltaTime;
                     landerRigidbody2D.AddTorque(-speed);
                     OnRightForce?.Invoke(this, EventArgs.Empty);
                 }

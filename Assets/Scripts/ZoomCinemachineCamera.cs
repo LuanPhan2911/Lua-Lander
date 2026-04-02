@@ -4,8 +4,8 @@ using UnityEngine;
 public class ZoomCinemachineCamera : MonoBehaviour
 {
 
-    private const float NORMAL_ZOOM_SIZE = 8f;
-    private float zoomSize = 8f;
+    private const float NORMAL_ZOOM_SIZE = 12f;
+    private float zoomSize;
 
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
     public static ZoomCinemachineCamera Instance { get; private set; }

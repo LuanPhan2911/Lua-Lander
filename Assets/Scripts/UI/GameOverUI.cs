@@ -6,7 +6,6 @@ public class GameOverUI : MonoBehaviour
 {
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private TextMeshProUGUI totalScoreText;
-    [SerializeField] private TextMeshProUGUI timeText;
 
 
     private void Awake()
@@ -21,6 +20,6 @@ public class GameOverUI : MonoBehaviour
     private void Start()
     {
         totalScoreText.text = "Total Score: " + GameManager.Instance.GetTotalScore();
-        timeText.text = "Time: " + GameManager.Instance.GetTime();
+
     }
 }

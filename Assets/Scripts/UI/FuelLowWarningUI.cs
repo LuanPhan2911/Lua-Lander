@@ -21,6 +21,11 @@ public class FuelLowWarningUI : MonoBehaviour
 
     private void Lander_OnFuelChanged(object sender, EventArgs e)
     {
+        if (BuffManager.Instance.IsBuffActive(BuffManager.BuffType.InfiniteFuel))
+        {
+            Hide();
+            return;
+        }
         float nornalizedFuel = Lander.Instance.GetFuelNormalized();
 
         if (nornalizedFuel <= Lander.LOW_FUEL_THRESHOLD && nornalizedFuel > 0f)

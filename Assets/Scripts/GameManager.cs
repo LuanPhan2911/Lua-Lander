@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private bool isTimerRunning = false;
 
 
-    private static int levelNumber = 1;
+    private static int levelNumber = 2;
     private static int totalScore = 0;
 
     [SerializeField] private List<GameLevel> gameLevels;
@@ -156,10 +156,7 @@ public class GameManager : MonoBehaviour
     {
         return score;
     }
-    public float GetTime()
-    {
-        return timer;
-    }
+
     public void RestartLevel()
     {
         SceneLoader.LoadScene(SceneLoader.Scene.GameScene);
@@ -169,6 +166,7 @@ public class GameManager : MonoBehaviour
         Lander.Instance.transform.position = landingPadSavePoint.GetSavePointPosition();
         cinemachineVirtualCamera.Follow = Lander.Instance.transform;
         Lander.Instance.ResetToInitialState();
+        BuffManager.Instance.ResetBuffs();
 
         foreach (InteractableObject item in pickedUpItemBeforeSavePoint)
         {

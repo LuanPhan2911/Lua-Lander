@@ -3,14 +3,31 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip coinPickup;
-    [SerializeField] private AudioClip fuelPickup;
-    [SerializeField] private AudioClip landingSuccess;
-    [SerializeField] private AudioClip landingCrash;
 
-    [SerializeField] private AudioClip getBuffSound;
+    [SerializeField] private SoundSO[] soundSOArray;
 
-    [SerializeField] private AudioClip shieldBreakSound;
+    public enum SoundType
+    {
+        CoinPickup,
+        FuelPickup,
+        LandingSuccess,
+        LandingCrash,
+        GetBuff,
+        ShieldBreak,
+        Shoot
+    }
+
+    private AudioClip GetAudioClip(SoundType soundType)
+    {
+        foreach (SoundSO soundSO in soundSOArray)
+        {
+            if (soundSO.type == soundType)
+            {
+                return soundSO.audioClip;
+            }
+        }
+        return null;
+    }
 
 
     public static SoundManager Instance { get; private set; }
@@ -38,22 +55,22 @@ public class SoundManager : MonoBehaviour
     {
         if (e.landedState == Lander.LandedState.Success)
         {
-            AudioSource.PlayClipAtPoint(landingSuccess, Camera.main.transform.position, GetSoundVolumeNormalized());
+            PlaySound(SoundType.LandingSuccess, Camera.main.transform.position);
         }
         else
         {
-            AudioSource.PlayClipAtPoint(landingCrash, Camera.main.transform.position, GetSoundVolumeNormalized());
+            PlaySound(SoundType.LandingCrash, Camera.main.transform.position);
         }
     }
 
     private void Lander_OnFuelPickup(object sender, EventArgs e)
     {
-        AudioSource.PlayClipAtPoint(fuelPickup, Camera.main.transform.position, GetSoundVolumeNormalized());
+        PlaySound(SoundType.FuelPickup, Camera.main.transform.position);
     }
 
     private void Lander_OnCoinPickup(object sender, EventArgs e)
     {
-        AudioSource.PlayClipAtPoint(coinPickup, Camera.main.transform.position, GetSoundVolumeNormalized());
+        PlaySound(SoundType.CoinPickup, Camera.main.transform.position);
     }
 
     public void ChangeSoundVolume(int volume)
@@ -74,12 +91,12 @@ public class SoundManager : MonoBehaviour
         return (float)soundVolume / MAX_SOUND_VOLUME;
     }
 
-    public void PlayGetBuffSound()
+    public void PlaySound(SoundType soundType, Vector3 position)
     {
-        AudioSource.PlayClipAtPoint(getBuffSound, Camera.main.transform.position, GetSoundVolumeNormalized());
-    }
-    public void PlayShieldBreakSound()
-    {
-        AudioSource.PlayClipAtPoint(shieldBreakSound, Camera.main.transform.position, GetSoundVolumeNormalized());
+        AudioClip audioClip = GetAudioClip(soundType);
+        if (audioClip != null)
+        {
+            AudioSource.PlayClipAtPoint(audioClip, position, GetSoundVolumeNormalized());
+        }
     }
 }

@@ -71,7 +71,8 @@ public class LanderShield : MonoBehaviour
             // trigger immune
 
             Lander.Instance.SetImmnuabled(true);
-            SoundManager.Instance.PlayShieldBreakSound();
+            SoundManager.Instance.
+                PlaySound(SoundManager.SoundType.ShieldBreak, Camera.main.transform.position);
 
         }
     }

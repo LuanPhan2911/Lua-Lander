@@ -306,7 +306,8 @@ public class Lander : MonoBehaviour
             {
                 BuffManager.Instance.ActivateBuff(buffItem.GetBuffType());
 
-                SoundManager.Instance.PlayGetBuffSound();
+                SoundManager.Instance.PlaySound(SoundManager.SoundType.GetBuff,
+                    Camera.main.transform.position);
 
                 if (buffItem.GetBuffType() == BuffManager.BuffType.Shield)
                 {

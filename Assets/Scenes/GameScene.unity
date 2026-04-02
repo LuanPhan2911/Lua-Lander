@@ -8731,12 +8731,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3d50f93b30c3745b3acc5149be1b5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPickup: {fileID: 8300000, guid: 4286836a473df634692d7fc2988b47bd, type: 3}
-  fuelPickup: {fileID: 8300000, guid: fbd9c5bf252a6c14b9bb3a84dba2510c, type: 3}
-  landingSuccess: {fileID: 8300000, guid: 6d68f74438f613b45b2181d4e917474c, type: 3}
-  landingCrash: {fileID: 8300000, guid: 4c9f9d63f11fa4d4ca1c537cd058256d, type: 3}
-  getBuffSound: {fileID: 8300000, guid: 2e0f6620a2d334044b5e3602d70d7e20, type: 3}
-  shieldBreakSound: {fileID: 8300000, guid: 467934a0caaac0c45841bbd0b1796bd0, type: 3}
+  soundSOArray:
+  - {fileID: 11400000, guid: ff1a6621cfe361a47a43da242211811a, type: 2}
+  - {fileID: 11400000, guid: 2218baa97292ee84faab0d25b884f7d6, type: 2}
+  - {fileID: 11400000, guid: a50759b0352a74a479c81239cc292c2e, type: 2}
+  - {fileID: 11400000, guid: 515b06c25330c4f449342ae9e3b7b6d5, type: 2}
+  - {fileID: 11400000, guid: 18c16222cb77de247853f748b28fea67, type: 2}
+  - {fileID: 11400000, guid: 90fb9607d27c7f74aad111f8fc82286c, type: 2}
+  - {fileID: 11400000, guid: 8bb749e7941e6aa459e91d69fe8e22db, type: 2}
 --- !u!4 &972773427
 Transform:
   m_ObjectHideFlags: 0

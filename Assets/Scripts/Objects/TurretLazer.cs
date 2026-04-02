@@ -1,5 +1,5 @@
 using UnityEngine;
-public class LingtningWall : DamageObject
+public class TurretLazer : DamageObject
 {
 
     [SerializeField] private LineRenderer lineRenderer;
@@ -9,11 +9,13 @@ public class LingtningWall : DamageObject
     [SerializeField] private BoxCollider2D boxColider2D;
 
 
-    [SerializeField] private float shotDuration = 3f;
-    [SerializeField] private float chargedDuration = 3f;
+    [SerializeField] private float shotDuration;
+    [SerializeField] private float chargedDuration;
 
-    [SerializeField] private float minEmissionRate = 0f;
-    [SerializeField] private float maxEmissionRate = 100f;
+    [SerializeField] private float minEmissionRate;
+    [SerializeField] private float maxEmissionRate;
+
+    [SerializeField] private AudioSource turretChargedSound;
 
     private bool isCharged = false;
 
@@ -36,6 +38,9 @@ public class LingtningWall : DamageObject
             {
                 isCharged = !isCharged;
                 timer = 0f;
+                // shot
+
+                SoundManager.Instance.PlaySound(SoundManager.SoundType.Shoot, transform.position);
             }
         }
         else
@@ -60,6 +65,10 @@ public class LingtningWall : DamageObject
         {
             chargedShotParticleSystem.Play();
         }
+        if (!turretChargedSound.isPlaying)
+        {
+            turretChargedSound.Play();
+        }
         ParticleSystem.EmissionModule emission = chargedShotParticleSystem.emission;
         emission.rateOverTime = Mathf.Lerp(minEmissionRate, maxEmissionRate, timer / chargedDuration);
 
@@ -71,6 +80,10 @@ public class LingtningWall : DamageObject
         if (chargedShotParticleSystem.isPlaying)
         {
             chargedShotParticleSystem.Stop();
+        }
+        if (turretChargedSound.isPlaying)
+        {
+            turretChargedSound.Stop();
         }
 
         lineRenderer.enabled = true;
